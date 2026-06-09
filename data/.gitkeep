@@ -1,0 +1,3 @@
+# Dane statyczne (JSON) dodawane w kolejnych fazach:
+#   questions.json (Faza 1), coach_actions.json (Faza 4),
+#   crisis_resources.json + education_content.json (Faza 5).
