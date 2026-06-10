@@ -129,32 +129,31 @@ class CoachView(BaseView):
         wiersz.pack(fill="x", pady=2, anchor="w")
 
         done_var = tk.BooleanVar(value=akcja.completed_date is not None)
+        # Combobox tworzymy najpierw, by checkbox mógł czytać jego BIEŻĄCĄ wartość
+        # (inaczej oznaczenie ukończenia nadpisywałoby ocenę nieaktualnym DTO).
+        ocena = ttk.Combobox(
+            wiersz, width=4, state="readonly",
+            values=["", "0", "1", "2", "3", "4", "5"],
+        )
+        ocena.set("" if akcja.rating is None else str(akcja.rating))
+
         ttk.Checkbutton(
             wiersz, variable=done_var,
-            command=lambda a=akcja, v=done_var, : self._oznacz(a, v),
+            command=lambda a=akcja, c=ocena, v=done_var: self._zapisz_akcje(a, c, v),
         ).pack(side="left")
         ttk.Label(
             wiersz, text=f"Dz. {akcja.scheduled_day}: {akcja.description}",
             wraplength=560, justify="left",
         ).pack(side="left", padx=(4, 8))
 
-        ocena = ttk.Combobox(
-            wiersz, width=4, state="readonly",
-            values=["", "0", "1", "2", "3", "4", "5"],
-        )
-        ocena.set("" if akcja.rating is None else str(akcja.rating))
         ocena.pack(side="right")
         ocena.bind(
             "<<ComboboxSelected>>",
-            lambda e, a=akcja, c=ocena, v=done_var: self._ocen(a, c, v),
+            lambda e, a=akcja, c=ocena, v=done_var: self._zapisz_akcje(a, c, v),
         )
 
-    def _oznacz(self, akcja, done_var) -> None:  # noqa: ANN001
-        self.app.facade.update_coach_action(
-            akcja.id, completed=done_var.get(), rating=akcja.rating
-        )
-
-    def _ocen(self, akcja, combo, done_var) -> None:  # noqa: ANN001
+    def _zapisz_akcje(self, akcja, combo, done_var) -> None:  # noqa: ANN001
+        """Zapisuje stan działania: ukończenie + ocena ZAWSZE z bieżącego combobox."""
         wartosc = combo.get()
         rating = int(wartosc) if wartosc else None
         self.app.facade.update_coach_action(

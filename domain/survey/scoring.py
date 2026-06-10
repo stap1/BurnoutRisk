@@ -105,8 +105,12 @@ class ScoringEngine:
         całkowitego - patrz Prompt 1.4). Średnia liczona wyłącznie z udzielonych
         odpowiedzi (pominięte/None są ignorowane, nie liczą się jako zero).
         """
-        recoded = self.recode(raw_answers)
+        return self._area_scores_from_recoded(self.recode(raw_answers))
 
+    def _area_scores_from_recoded(
+        self, recoded: Mapping[str, int | None]
+    ) -> dict[str, AreaScore]:
+        """Liczy wyniki obszarów z gotowej mapy risk_score (bez ponownego rekodowania)."""
         wyniki: dict[str, AreaScore] = {}
         for c in self._definition.categories:
             udzielone = [
@@ -134,16 +138,16 @@ class ScoringEngine:
     def total_score(
         self, raw_answers: Mapping[str, int | None]
     ) -> float | None:
-        """Wynik całkowity 0-100 z renormalizacją wag (spec §3.2 krok 4).
+        """Wynik całkowity 0-100 z renormalizacją wag (spec §3.2 krok 4)."""
+        return self._total_from_area_map(self.area_scores(raw_answers))
 
-        Średnia ważona wyłącznie obszarów ocenionych (`RATED`), z mianownikiem =
-        suma wag obszarów ocenionych. Renormalizacja sprawia, że obszar pominięty
-        (INSUFFICIENT_DATA) NIE zaniża wyniku - nie wchodzi ani do licznika, ani
-        do mianownika. Gdy żaden obszar nie jest oceniony -> None ("za mało danych").
+    def _total_from_area_map(self, obszary: Mapping[str, AreaScore]) -> float | None:
+        """Renormalizowana średnia ważona obszarów ocenionych.
+
+        Obszar pominięty (INSUFFICIENT_DATA) NIE zaniża wyniku - nie wchodzi ani do
+        licznika, ani do mianownika. Gdy żaden obszar nie jest oceniony -> None.
         """
-        obszary = self.area_scores(raw_answers)
         wagi = {c.id: c.weight for c in self._definition.categories}
-
         licznik = 0.0
         mianownik = 0
         for area in obszary.values():
@@ -185,14 +189,15 @@ class ScoringEngine:
         Łączy kroki §3.2: rekodowanie → wyniki obszarów → wynik całkowity z
         renormalizacją → pasmo ryzyka → top obszary / obszary bez danych.
         """
-        obszary = self.area_scores(raw_answers)
+        # Rekodowanie i wyniki obszarów liczone RAZ, total z gotowej mapy.
+        obszary = self._area_scores_from_recoded(self.recode(raw_answers))
 
         # area_scores w stałej kolejności kategorii definicji (A..F).
         area_lista = tuple(
             obszary[c.id] for c in self._definition.categories
         )
 
-        total = self.total_score(raw_answers)
+        total = self._total_from_area_map(obszary)
         pasmo = risk_band(total) if total is not None else None
 
         unrated = tuple(

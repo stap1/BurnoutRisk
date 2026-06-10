@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -46,7 +47,9 @@ class CoachConfigDTO(BaseModel):
 
     based_on_session_id: str
     goal: Goal
-    daily_time_budget: int = Field(ge=1)
+    # Tylko dozwolone budżety (spec §6.2). Inne wartości nie mają działań w
+    # bibliotece i prowadziłyby do pustego doboru.
+    daily_time_budget: Literal[5, 10, 15]
 
 
 class CheckInDTO(BaseModel):

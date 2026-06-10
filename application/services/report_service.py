@@ -30,18 +30,19 @@ class ReportService:
         self._trend = trend_detector or TrendDetector()
 
     def get_progress_report(self) -> ProgressReportDTO:
+        # Historia pobierana RAZ i przekazywana dalej (mniej zapytań I/O).
+        historia = self._survey_repo.get_history()
         return ProgressReportDTO(
-            session_trend=self._session_trend(),
+            session_trend=self._session_trend(historia),
             checkin_trend=self._checkin_trend(),
-            agency=self._agency(),
+            agency=self._agency(historia),
         )
 
-    def _session_trend(self) -> list[TrendPointDTO]:
+    def _session_trend(self, historia) -> list[TrendPointDTO]:  # noqa: ANN001
         # Historia jest od najnowszej - odwracamy na oś czasu rosnącą.
-        sesje = list(reversed(self._survey_repo.get_history()))
         return [
             TrendPointDTO(label=s.created_at.date().isoformat(), value=s.total_score)
-            for s in sesje
+            for s in reversed(historia)
             if s.total_score is not None
         ]
 
@@ -55,14 +56,14 @@ class ReportService:
             punkty.append(TrendPointDTO(label=c.date, value=wsk))
         return punkty
 
-    def _agency(self) -> AgencySummaryDTO:
+    def _agency(self, historia) -> AgencySummaryDTO:  # noqa: ANN001
         plan = self._coach_repo.get_latest_plan()
         total = len(plan.actions) if plan else 0
         completed = (
             sum(1 for a in plan.actions if a.completed_date is not None) if plan else 0
         )
         checkin_count = len(self._coach_repo.get_checkins(None))
-        improved, worsened = self._porownaj_ostatnie_sesje()
+        improved, worsened = self._porownaj_ostatnie_sesje(historia)
         return AgencySummaryDTO(
             completed_actions=completed,
             total_actions=total,
@@ -71,8 +72,7 @@ class ReportService:
             worsened_areas=worsened,
         )
 
-    def _porownaj_ostatnie_sesje(self) -> tuple[list[str], list[str]]:
-        historia = self._survey_repo.get_history()  # najnowsza pierwsza
+    def _porownaj_ostatnie_sesje(self, historia) -> tuple[list[str], list[str]]:  # noqa: ANN001
         if len(historia) < 2:
             return [], []
         nowsza = self._survey_repo.get_session(historia[0].session_id)

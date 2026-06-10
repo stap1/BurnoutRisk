@@ -119,17 +119,25 @@ class CoachPlanGenerator:
 
         # Kandydaci per obszar: dopasowani do budżetu, z preferencją celu (cel
         # pasujący najpierw - sort stabilny zachowuje porządek -czas,id z biblioteki).
+        # Obszary bez pasujących działań (np. budżet mniejszy niż najkrótsze
+        # działanie) są pomijane - chroni przed dzieleniem przez zero.
         kandydaci: dict[str, list] = {}
+        aktywne: list[str] = []
         for obszar in obszary:
             baza = list(self._library.for_area_and_budget(obszar, budget))
             baza.sort(key=lambda a: 0 if a.goal == goal else 1)
-            kandydaci[obszar] = baza
+            if baza:
+                kandydaci[obszar] = baza
+                aktywne.append(obszar)
 
-        liczniki = {obszar: 0 for obszar in obszary}
-        n = len(obszary)
+        if not aktywne:
+            return ()
+
+        liczniki = {obszar: 0 for obszar in aktywne}
+        n = len(aktywne)
         planned: list[PlannedAction] = []
         for dzien in range(1, PLAN_DAYS + 1):
-            obszar = obszary[(dzien - 1) % n]
+            obszar = aktywne[(dzien - 1) % n]
             lista = kandydaci[obszar]
             akcja = lista[liczniki[obszar] % len(lista)]
             liczniki[obszar] += 1

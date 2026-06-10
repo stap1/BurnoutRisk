@@ -11,7 +11,7 @@ from __future__ import annotations
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from infrastructure.crypto import WrongPinError
+from infrastructure.crypto import KeyRecoveryNeeded, WrongPinError
 from presentation import palette
 from presentation.views.base import BaseView
 
@@ -82,6 +82,14 @@ class PinView(BaseView):
             self.app.facade.disable_pin(self._pin_var.get().strip())
         except WrongPinError:
             messagebox.showinfo("PIN", "Nieprawidłowy PIN.", parent=self)
+            return
+        except KeyRecoveryNeeded:
+            messagebox.showinfo(
+                "PIN",
+                "Nie udało się odczytać klucza (uszkodzony lub niedostępny). "
+                "Jeśli nie pamiętasz PIN-u, użyj opcji resetu poniżej.",
+                parent=self,
+            )
             return
         messagebox.showinfo("PIN", "PIN wyłączony.", parent=self)
         self.on_show()

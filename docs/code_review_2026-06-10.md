@@ -22,14 +22,14 @@ trend/results/enumy 100%). W warstwie bezpieczeństwa/scoringu/persystencji
 
 | # | Plik:linia | Waga | Rodzaj | Status |
 |---|---|---|---|---|
-| 1 | `domain/coaching/plan.py:134` (+ `application/dto/coach.py:49`) | wysoka (crash) | poprawność | ⏳ do naprawy |
-| 2 | `presentation/views/coach.py:154` | wysoka (utrata danych) | poprawność | ⏳ do naprawy |
-| 3 | `presentation/views/pin.py:83` | średnia/niska | odporność | ⏳ do naprawy |
-| 4 | `domain/survey/scoring.py` (`score`/`total_score`) | niska | wydajność | ⏳ do naprawy |
-| 5 | `application/services/report_service.py` | niska | wydajność | ⏳ do naprawy |
-| 6 | `application/services/report_service.py` / `survey_repository.py` | niska | determinizm | ⏳ do naprawy |
+| 1 | `domain/coaching/plan.py:134` (+ `application/dto/coach.py:49`) | wysoka (crash) | poprawność | ✅ naprawione |
+| 2 | `presentation/views/coach.py:154` | wysoka (utrata danych) | poprawność | ✅ naprawione |
+| 3 | `presentation/views/pin.py:83` | średnia/niska | odporność | ✅ naprawione |
+| 4 | `domain/survey/scoring.py` (`score`/`total_score`) | niska | wydajność | ✅ naprawione |
+| 5 | `application/services/report_service.py` | niska | wydajność | ✅ naprawione |
+| 6 | `application/services/report_service.py` / `survey_repository.py` | niska | determinizm | ✅ naprawione |
 
-> Statusy zostaną zaktualizowane na ✅ po wprowadzeniu poprawek z testami regresyjnymi.
+> Wszystkie naprawione w commicie poprawkowym; **301 testów zielonych** (12 nowych testów regresyjnych).
 
 ### 1. ZeroDivisionError w generatorze planu przy budżecie < 5 (crash)
 
@@ -95,5 +95,8 @@ kolejność deterministyczną.
 
 Brak usterek krytycznych dla bezpieczeństwa danych ani dla rdzenia scoringu.
 Dwie realne usterki funkcjonalne (#1 crash, #2 utrata oceny) oraz jedna luka
-odporności (#3) do naprawy wraz z testami regresyjnymi; trzy poprawki
+odporności (#3) naprawione wraz z testami regresyjnymi; trzy poprawki
 jakościowe (#4–#6) bez zmian zachowania widocznego dla użytkownika.
+
+**Wynik po naprawach:** `pytest` 301 zielonych (1 skip środowiskowy tkinter),
+pokrycie rdzenia domeny utrzymane na 100%.

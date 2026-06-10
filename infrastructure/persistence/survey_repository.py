@@ -119,7 +119,7 @@ class SqliteSurveyRepository(ISurveyRepository):
             """
             SELECT id, started_at, total_score, risk_band
             FROM survey_session
-            ORDER BY started_at DESC
+            ORDER BY started_at DESC, id DESC
             """
         ).fetchall()
         return [
