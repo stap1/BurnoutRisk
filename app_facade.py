@@ -31,10 +31,17 @@ from application.services import (
     ReportService,
     SurveyService,
 )
+from domain.common import ExportFormat
 from domain.safety import CrisisResources
 from domain.survey import SurveyDefinition
 from infrastructure.crypto import SecurityService
+from infrastructure.export import export_session_to_csv
 from infrastructure.persistence.wipe import WipeService
+
+EXPORT_WARNING = (
+    "Tworzysz niezaszyfrowany plik z danymi o swoim zdrowiu. Przechowuj go "
+    "ostrożnie i nie udostępniaj osobom niepowołanym."
+)
 
 
 class AppFacade:
@@ -150,6 +157,32 @@ class AppFacade:
 
     def get_progress_report(self) -> ProgressReportDTO:
         return self._report.get_progress_report()
+
+    # --- eksport (z obowiązkowym ostrzeżeniem) ---
+
+    def get_export_warning(self) -> str:
+        """Ostrzeżenie do pokazania i potwierdzenia PRZED eksportem (§10.1)."""
+        return EXPORT_WARNING
+
+    def has_session_to_export(self) -> bool:
+        return bool(self._survey.get_history())
+
+    def export_last_session(
+        self, path: str, fmt: ExportFormat = ExportFormat.CSV
+    ) -> None:
+        """Eksportuje ostatnią sesję (+ plan) do pliku. Tylko zapis lokalny."""
+        historia = self._survey.get_history()
+        if not historia:
+            raise ValueError("Brak sesji do eksportu.")
+        result = self._survey.get_session(historia[0].session_id)
+        if result is None:
+            raise ValueError("Nie udało się odczytać ostatniej sesji.")
+        plan = self._coach.get_latest_plan()
+
+        if fmt is ExportFormat.CSV:
+            export_session_to_csv(path, result, plan)
+        else:
+            raise NotImplementedError("Eksport PDF jest poza zakresem MVP.")
 
     # --- tryb PIN ---
 

@@ -68,6 +68,7 @@ class BurnoutApp(tk.Tk):
         # "wynik" wskazuje na zaślepkę.
         from presentation.views.coach import CoachView
         from presentation.views.education import EducationView
+        from presentation.views.export import ExportView
         from presentation.views.pin import PinView
         from presentation.views.progress import ProgressView
         from presentation.views.result import ResultView
@@ -80,6 +81,7 @@ class BurnoutApp(tk.Tk):
         self.register_view("coaching", CoachView(self._kontener, self))
         self.register_view("edukacja", EducationView(self._kontener, self))
         self.register_view("postep", ProgressView(self._kontener, self))
+        self.register_view("eksport", ExportView(self._kontener, self))
         self.register_view("pin", PinView(self._kontener, self))
         self.show_view("start")
 
@@ -107,6 +109,9 @@ class BurnoutApp(tk.Tk):
         ustawienia = tk.Menu(menubar, tearoff=0)
         ustawienia.add_command(
             label="PIN i prywatność", command=lambda: self.show_view("pin")
+        )
+        ustawienia.add_command(
+            label="Eksport danych", command=lambda: self.show_view("eksport")
         )
         menubar.add_cascade(label="Ustawienia", menu=ustawienia)
         widok = tk.Menu(menubar, tearoff=0)
