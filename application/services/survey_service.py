@@ -20,7 +20,7 @@ from application.dto.survey import (
     SurveyResultDTO,
 )
 from application.ports.repositories import ISurveyRepository
-from domain.survey import ScoringEngine, ScoringResult, SurveyDefinition
+from domain.survey import ScoringEngine, ScoringResult, SurveyDefinition, risk_band
 
 
 class SurveyValidationError(ValueError):
@@ -100,6 +100,7 @@ class SurveyService:
                 name=nazwy[a.category_id],
                 score=a.score,
                 status=a.status,
+                band=risk_band(a.score) if a.score is not None else None,
             )
             for a in result.area_scores
         ]

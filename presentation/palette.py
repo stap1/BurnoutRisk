@@ -32,3 +32,18 @@ def kolor_pasma(band: RiskBand | None) -> str:
     if band is None:
         return NEUTRALNY
     return PASMA.get(band, NEUTRALNY)
+
+
+# Etykiety INFORMUJĄCE, nie alarmujące (spec §5.4) - bez słów typu "wysokie ryzyko".
+ETYKIETY_PASMA: dict[RiskBand, str] = {
+    RiskBand.LOW: "tu raczej spokojnie",
+    RiskBand.MODERATE: "warto obserwować",
+    RiskBand.HIGH: "warto zwrócić uwagę",
+    RiskBand.VERY_HIGH: "ten obszar potrzebuje uwagi",
+}
+
+
+def etykieta_pasma(band: RiskBand | None) -> str:
+    if band is None:
+        return "za mało danych"
+    return ETYKIETY_PASMA.get(band, "")

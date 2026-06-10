@@ -97,6 +97,7 @@ class AreaScoreDTO(BaseModel):
     name: str
     score: float | None
     status: AreaStatus
+    band: RiskBand | None = None
 
 
 class SurveyResultDTO(BaseModel):

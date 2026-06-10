@@ -25,7 +25,7 @@ from application.dto.survey import (
 )
 from application.ports.repositories import ISurveyRepository
 from domain.common import AreaStatus, RiskBand
-from domain.survey import ScoringResult, SurveyDefinition
+from domain.survey import ScoringResult, SurveyDefinition, risk_band
 
 APP_VERSION = "0.1.0"
 
@@ -161,6 +161,7 @@ class SqliteSurveyRepository(ISurveyRepository):
                     name=nazwy.get(r["category_id"], r["category_id"]),
                     score=r["score"],
                     status=AreaStatus(r["status"]),
+                    band=risk_band(r["score"]) if r["score"] is not None else None,
                 )
                 for r in cat_rows
             ),
