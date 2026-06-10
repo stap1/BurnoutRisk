@@ -61,6 +61,13 @@ class SurveyDefinition(BaseModel):
 
     categories: tuple[Category, ...]
     questions: tuple[Question, ...]
+    # Etykiety skali 0-4 (wartość -> opis), na potrzeby prezentacji. Para krotek,
+    # by model pozostał haszowalny (frozen). Puste, gdy danych nie podano.
+    answer_scale: tuple[tuple[int, str], ...] = ()
+
+    @property
+    def scale_labels(self) -> dict[int, str]:
+        return dict(self.answer_scale)
 
     @model_validator(mode="after")
     def _waliduj_spojnosc(self) -> SurveyDefinition:
@@ -129,6 +136,12 @@ class SurveyDefinition(BaseModel):
                 "Definicja ankiety wymaga list 'kategorie' oraz 'pytania'."
             )
 
+        # Skala odpowiedzi (opcjonalna): {"skala": {"etykiety": {"0": "...", ...}}}.
+        etykiety = (raw.get("skala") or {}).get("etykiety") or {}
+        answer_scale = tuple(
+            sorted((int(k), v) for k, v in etykiety.items())
+        )
+
         try:
             questions = tuple(
                 Question(
@@ -162,7 +175,11 @@ class SurveyDefinition(BaseModel):
         except KeyError as exc:
             raise ValueError(f"Kategoria pozbawiona wymaganego pola: {exc}.") from exc
 
-        return cls(categories=categories, questions=questions)
+        return cls(
+            categories=categories,
+            questions=questions,
+            answer_scale=answer_scale,
+        )
 
     def question_by_id(self, question_id: str) -> Question:
         for q in self.questions:

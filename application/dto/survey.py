@@ -67,6 +67,27 @@ class SurveyAnswersDTO(BaseModel):
         return {a.question_id for a in self.answers}
 
 
+class QuestionDTO(BaseModel):
+    """Pytanie ankiety przygotowane pod prezentację (kolejność wyświetlania)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: str
+    category: str
+    text: str
+    is_skippable: bool
+    display_order: int
+
+
+class SurveyFormDTO(BaseModel):
+    """Komplet do wyświetlenia ankiety: pytania (wg kolejności) + skala odpowiedzi."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    questions: list[QuestionDTO]
+    answer_scale: list[tuple[int, str]]
+
+
 class AreaScoreDTO(BaseModel):
     """Wynik obszaru przygotowany pod prezentację (z nazwą obszaru)."""
 

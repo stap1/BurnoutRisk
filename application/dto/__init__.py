@@ -12,11 +12,15 @@ from application.dto.education import (
     EducationTopicDTO,
     QuizQuestionDTO,
 )
+from application.dto.coach import CheckInResultDTO, CoachConfigDTO
+from application.dto.safety import CrisisResourceDTO, SafetyNetDTO
 from application.dto.survey import (
     AnswerDTO,
     AreaScoreDTO,
+    QuestionDTO,
     SessionSummaryDTO,
     SurveyAnswersDTO,
+    SurveyFormDTO,
     SurveyResultDTO,
 )
 
@@ -34,4 +38,10 @@ __all__ = [
     "EducationSectionDTO",
     "QuizQuestionDTO",
     "EducationProgressDTO",
+    "QuestionDTO",
+    "SurveyFormDTO",
+    "CoachConfigDTO",
+    "CheckInResultDTO",
+    "CrisisResourceDTO",
+    "SafetyNetDTO",
 ]
