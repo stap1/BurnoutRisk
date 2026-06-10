@@ -12,11 +12,17 @@ from abc import ABC, abstractmethod
 from collections.abc import Mapping
 from datetime import datetime
 
+from application.dto.coach import (
+    CheckInDTO,
+    CoachPlanDTO,
+    OutcomeDTO,
+)
 from application.dto.survey import (
     SessionSummaryDTO,
     SurveyAnswersDTO,
     SurveyResultDTO,
 )
+from domain.coaching import CoachPlan
 from domain.survey import ScoringResult
 
 
@@ -51,20 +57,32 @@ class ICoachRepository(ABC):
     """Trwałość planów coachingowych, działań, check-inów i outcome'ów (Faza 4)."""
 
     @abstractmethod
-    def save_plan(self, plan: object) -> str:
-        """Zapisuje plan i zwraca jego identyfikator. Typ planu doprecyzuje Faza 4."""
+    def save_plan(self, plan: CoachPlan, *, created_at: datetime) -> str:
+        """Zapisuje plan + działania atomowo i zwraca identyfikator planu."""
 
     @abstractmethod
-    def get_latest_plan(self) -> object | None:
+    def get_plan(self, plan_id: str) -> CoachPlanDTO | None:
+        """Plan o danym id lub None."""
+
+    @abstractmethod
+    def get_latest_plan(self) -> CoachPlanDTO | None:
         """Najnowszy plan lub None."""
 
     @abstractmethod
-    def save_checkin(self, checkin: object) -> str:
-        """Zapisuje dzienny check-in (notatka szyfrowana w infrastrukturze)."""
+    def save_checkin(self, checkin: CheckInDTO) -> str:
+        """Zapisuje dzienny check-in (notatka szyfrowana AES-GCM)."""
 
     @abstractmethod
-    def save_outcome(self, outcome: object) -> str:
+    def get_checkins(self, plan_id: str | None = None) -> list[CheckInDTO]:
+        """Check-iny (opcjonalnie filtr po planie), notatki odszyfrowane."""
+
+    @abstractmethod
+    def save_outcome(self, outcome: OutcomeDTO) -> str:
         """Zapisuje okresową ocenę efektu (komentarz szyfrowany)."""
+
+    @abstractmethod
+    def get_outcomes(self, plan_id: str) -> list[OutcomeDTO]:
+        """Outcome'y planu (komentarze odszyfrowane)."""
 
 
 class IEducationRepository(ABC):
