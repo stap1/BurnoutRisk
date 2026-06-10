@@ -64,13 +64,15 @@ class BurnoutApp(tk.Tk):
         view.on_show()
 
     def _zbuduj_views(self) -> None:
-        # Ekran powitalny + zgoda (7.2). Kolejne ekrany dochodzą w 7.3-7.7;
-        # do czasu ich implementacji "ankieta" wskazuje na zaślepkę.
+        # Ekrany 7.2-7.3. Wynik (7.4) i kolejne dochodzą później - do tego czasu
+        # "wynik" wskazuje na zaślepkę.
         from presentation.views.placeholder import PlaceholderView
+        from presentation.views.survey import SurveyView
         from presentation.views.welcome import WelcomeView
 
         self.register_view("start", WelcomeView(self._kontener, self))
-        self.register_view("ankieta", PlaceholderView(self._kontener, self))
+        self.register_view("ankieta", SurveyView(self._kontener, self))
+        self.register_view("wynik", PlaceholderView(self._kontener, self))
         self.show_view("start")
 
     # --- safety-net (zawsze dostępny) ---
