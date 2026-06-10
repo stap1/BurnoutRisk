@@ -111,3 +111,27 @@ class ScoringEngine:
                 question_count=liczba_pytan,
             )
         return wyniki
+
+    def total_score(
+        self, raw_answers: Mapping[str, int | None]
+    ) -> float | None:
+        """Wynik całkowity 0-100 z renormalizacją wag (spec §3.2 krok 4).
+
+        Średnia ważona wyłącznie obszarów ocenionych (`RATED`), z mianownikiem =
+        suma wag obszarów ocenionych. Renormalizacja sprawia, że obszar pominięty
+        (INSUFFICIENT_DATA) NIE zaniża wyniku - nie wchodzi ani do licznika, ani
+        do mianownika. Gdy żaden obszar nie jest oceniony -> None ("za mało danych").
+        """
+        obszary = self.area_scores(raw_answers)
+        wagi = {c.id: c.weight for c in self._definition.categories}
+
+        licznik = 0.0
+        mianownik = 0
+        for area in obszary.values():
+            if area.status is AreaStatus.RATED and area.score is not None:
+                licznik += wagi[area.category_id] * area.score
+                mianownik += wagi[area.category_id]
+
+        if mianownik == 0:
+            return None
+        return licznik / mianownik
