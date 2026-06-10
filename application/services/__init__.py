@@ -2,6 +2,7 @@
 
 from application.services.coach_service import CoachService
 from application.services.education_service import EducationService
+from application.services.report_service import ReportService
 from application.services.survey_service import SurveyService, SurveyValidationError
 
 __all__ = [
@@ -9,4 +10,5 @@ __all__ = [
     "SurveyValidationError",
     "EducationService",
     "CoachService",
+    "ReportService",
 ]

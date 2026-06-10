@@ -69,6 +69,7 @@ class BurnoutApp(tk.Tk):
         from presentation.views.coach import CoachView
         from presentation.views.education import EducationView
         from presentation.views.pin import PinView
+        from presentation.views.progress import ProgressView
         from presentation.views.result import ResultView
         from presentation.views.survey import SurveyView
         from presentation.views.welcome import WelcomeView
@@ -78,6 +79,7 @@ class BurnoutApp(tk.Tk):
         self.register_view("wynik", ResultView(self._kontener, self))
         self.register_view("coaching", CoachView(self._kontener, self))
         self.register_view("edukacja", EducationView(self._kontener, self))
+        self.register_view("postep", ProgressView(self._kontener, self))
         self.register_view("pin", PinView(self._kontener, self))
         self.show_view("start")
 
@@ -107,6 +109,9 @@ class BurnoutApp(tk.Tk):
             label="PIN i prywatność", command=lambda: self.show_view("pin")
         )
         menubar.add_cascade(label="Ustawienia", menu=ustawienia)
+        widok = tk.Menu(menubar, tearoff=0)
+        widok.add_command(label="Mój postęp", command=lambda: self.show_view("postep"))
+        menubar.add_cascade(label="Postęp", menu=widok)
         pomoc = tk.Menu(menubar, tearoff=0)
         pomoc.add_command(label="Wsparcie (safety-net)", command=self.open_safety_net)
         menubar.add_cascade(label="Pomoc", menu=pomoc)

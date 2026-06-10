@@ -16,7 +16,12 @@ from datetime import datetime
 from pathlib import Path
 
 from app_facade import AppFacade
-from application.services import CoachService, EducationService, SurveyService
+from application.services import (
+    CoachService,
+    EducationService,
+    ReportService,
+    SurveyService,
+)
 from infrastructure.crypto import (
     AesGcmCryptoService,
     KeyringKeyStore,
@@ -117,6 +122,7 @@ def build_app_facade(
     survey_service = SurveyService(definition, survey_repo, zegar)
     coach_service = CoachService(survey_repo, coach_repo, library, zegar)
     education_service = EducationService(education_content, education_repo, zegar)
+    report_service = ReportService(survey_repo, coach_repo)
 
     # Data weryfikacji zasobów kryzysowych do app_meta (reguła re-weryfikacji §8.2).
     _set_app_meta(conn, KLUCZ_CRISIS_VERIFIED, crisis.verified_at)
@@ -129,5 +135,6 @@ def build_app_facade(
         crisis_resources=crisis,
         wipe_service=wipe_service,
         security_service=security,
+        report_service=report_service,
         keyring_safe=keyring_safe,
     )

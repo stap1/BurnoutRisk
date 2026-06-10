@@ -17,6 +17,7 @@ from application.dto import (
     CrisisResourceDTO,
     EducationProgressDTO,
     EducationTopicDTO,
+    ProgressReportDTO,
     QuestionDTO,
     SafetyNetDTO,
     SessionSummaryDTO,
@@ -24,7 +25,12 @@ from application.dto import (
     SurveyFormDTO,
     SurveyResultDTO,
 )
-from application.services import CoachService, EducationService, SurveyService
+from application.services import (
+    CoachService,
+    EducationService,
+    ReportService,
+    SurveyService,
+)
 from domain.safety import CrisisResources
 from domain.survey import SurveyDefinition
 from infrastructure.crypto import SecurityService
@@ -42,6 +48,7 @@ class AppFacade:
         crisis_resources: CrisisResources,
         wipe_service: WipeService,
         security_service: SecurityService,
+        report_service: ReportService,
         keyring_safe: bool,
     ) -> None:
         self._definition = survey_definition
@@ -51,6 +58,7 @@ class AppFacade:
         self._crisis = crisis_resources
         self._wipe = wipe_service
         self._security = security_service
+        self._report = report_service
         self._keyring_safe = keyring_safe
 
     # --- start / stan ---
@@ -137,6 +145,11 @@ class AppFacade:
                 for r in self._crisis.resources
             ],
         )
+
+    # --- raportowanie / postęp ---
+
+    def get_progress_report(self) -> ProgressReportDTO:
+        return self._report.get_progress_report()
 
     # --- tryb PIN ---
 
