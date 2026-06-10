@@ -1,0 +1,25 @@
+{
+  "wersja": "1.0",
+  "budzety": [5, 10, 15],
+  "dzialania": [
+    { "id": "B5",  "obszar": "B", "typ": "uznanie",     "czas": 5,  "cel": "RELACJE", "tresc": "Zapisz jedno swoje osiągnięcie z dziś, które zwykle umyka uwadze." },
+    { "id": "B10", "obszar": "B", "typ": "uznanie",     "czas": 10, "cel": "RELACJE", "tresc": "Przygotuj krótką listę oczekiwań do rozmowy z przełożonym o informacji zwrotnej." },
+    { "id": "B15", "obszar": "B", "typ": "uznanie",     "czas": 15, "cel": "RELACJE", "tresc": "Zaplanuj rozmowę o celach i możliwościach rozwoju - wypisz trzy pytania, które chcesz zadać." },
+
+    { "id": "C5",  "obszar": "C", "typ": "organizacja", "czas": 5,  "cel": "STRES",   "tresc": "Zrób 5-minutową przerwę z dala od ekranu i skup się na spokojnym oddechu." },
+    { "id": "C10", "obszar": "C", "typ": "organizacja", "czas": 10, "cel": "STRES",   "tresc": "Podziel jedno duże zadanie na mniejsze kroki i wykonaj tylko pierwszy z nich." },
+    { "id": "C15", "obszar": "C", "typ": "organizacja", "czas": 15, "cel": "STRES",   "tresc": "Zaplanuj dzień w blokach pracy z przerwami; wyznacz dwa bloki bez powiadomień." },
+
+    { "id": "D5",  "obszar": "D", "typ": "granice",     "czas": 5,  "cel": "GRANICE", "tresc": "Ustal dziś jedną godzinę, po której nie sprawdzasz służbowych wiadomości." },
+    { "id": "D10", "obszar": "D", "typ": "granice",     "czas": 10, "cel": "GRANICE", "tresc": "Stwórz krótki rytuał końca pracy (np. zamknięcie listy zadań, krótki spacer)." },
+    { "id": "D15", "obszar": "D", "typ": "granice",     "czas": 15, "cel": "GRANICE", "tresc": "Zapisz swoje zasady dostępności poza godzinami pracy i zaplanuj, komu je zakomunikujesz." },
+
+    { "id": "E5",  "obszar": "E", "typ": "autonomia",   "czas": 5,  "cel": "GRANICE", "tresc": "Wybierz jedno zadanie, w którym dziś sam zdecydujesz o sposobie wykonania." },
+    { "id": "E10", "obszar": "E", "typ": "autonomia",   "czas": 10, "cel": "GRANICE", "tresc": "Wypisz dwa obszary pracy, w których chciałbyś mieć większy wpływ." },
+    { "id": "E15", "obszar": "E", "typ": "autonomia",   "czas": 15, "cel": "GRANICE", "tresc": "Przygotuj propozycję renegocjacji zakresu lub priorytetów na najbliższe spotkanie." },
+
+    { "id": "F5",  "obszar": "F", "typ": "regeneracja", "czas": 5,  "cel": "ENERGIA", "tresc": "Zrób krótkie ćwiczenie oddechowe lub rozciąganie, by rozładować napięcie." },
+    { "id": "F10", "obszar": "F", "typ": "regeneracja", "czas": 10, "cel": "ENERGIA", "tresc": "Zaplanuj dziś aktywność, która Cię regeneruje (ruch, kontakt z bliską osobą)." },
+    { "id": "F15", "obszar": "F", "typ": "regeneracja", "czas": 15, "cel": "ENERGIA", "tresc": "Przygotuj prosty plan snu na ten tydzień: stała pora i brak ekranu na pół godziny przed snem." }
+  ]
+}
