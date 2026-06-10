@@ -9,6 +9,7 @@ zmiana istniejącego kontraktu bez powodu (spec §1.2.1).
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Mapping
 from datetime import datetime
 
 from application.dto.survey import (
@@ -27,13 +28,14 @@ class ISurveyRepository(ABC):
         self,
         *,
         answers: SurveyAnswersDTO,
+        risk_scores: Mapping[str, int | None],
         result: ScoringResult,
         created_at: datetime,
     ) -> str:
         """Zapisuje sesję atomowo (Faza 3.3) i zwraca jej identyfikator.
 
-        Sesja + wszystkie odpowiedzi + wyniki obszarów w JEDNEJ transakcji;
-        błąd → ROLLBACK (brak zapisu częściowego).
+        Sesja + wszystkie odpowiedzi (z `risk_score` po rekodowaniu) + wyniki
+        obszarów w JEDNEJ transakcji; błąd → ROLLBACK (brak zapisu częściowego).
         """
 
     @abstractmethod

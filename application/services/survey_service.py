@@ -43,10 +43,15 @@ class SurveyService:
         """Waliduje, liczy i zapisuje sesję; zwraca wynik jako DTO."""
         self._waliduj(answers)
 
-        result = self._engine.score(answers.to_raw_mapping())
+        mapping = answers.to_raw_mapping()
+        risk_scores = self._engine.recode(mapping)
+        result = self._engine.score(mapping)
         created_at = self._clock()
         session_id = self._repository.save_survey(
-            answers=answers, result=result, created_at=created_at
+            answers=answers,
+            risk_scores=risk_scores,
+            result=result,
+            created_at=created_at,
         )
         return self._do_result_dto(result, session_id=session_id, created_at=created_at)
 

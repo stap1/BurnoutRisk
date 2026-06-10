@@ -31,9 +31,14 @@ class FakeSurveyRepository(ISurveyRepository):
         self.saved: list[dict] = []
         self.history: list[SessionSummaryDTO] = []
 
-    def save_survey(self, *, answers, result, created_at) -> str:  # type: ignore[override]
+    def save_survey(self, *, answers, risk_scores, result, created_at) -> str:  # type: ignore[override]
         self.saved.append(
-            {"answers": answers, "result": result, "created_at": created_at}
+            {
+                "answers": answers,
+                "risk_scores": risk_scores,
+                "result": result,
+                "created_at": created_at,
+            }
         )
         return "sesja-123"
 
