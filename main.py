@@ -1,19 +1,19 @@
 """Entrypoint aplikacji Burnout Risk Monitor.
 
-Uruchomienie: `python main.py`. W Fazie 0 jedynie buduje fasadę i kończy pracy -
-okno tkinter dochodzi w Fazie 7.
+Uruchomienie: `python main.py`. Buduje fasadę (composition root) i uruchamia
+okno tkinter (z motywem sv_ttk i graceful fallback do ttk).
 """
 
 from __future__ import annotations
 
 from composition_root import build_app_facade
+from presentation.app import BurnoutApp
 
 
 def main() -> None:
-    """Punkt startowy: zbuduj fasadę, a w przyszłości uruchom UI."""
-    _facade = build_app_facade()
-    # Faza 7: tutaj powstanie i uruchomi się główne okno tkinter (z motywem sv_ttk
-    # i graceful fallback do ttk). Na razie sam montaż zależności.
+    facade = build_app_facade()
+    app = BurnoutApp(facade)
+    app.mainloop()
 
 
 if __name__ == "__main__":
