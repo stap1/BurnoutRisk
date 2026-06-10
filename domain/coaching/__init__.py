@@ -14,6 +14,13 @@ from domain.coaching.plan import (
     CoachPlanGenerator,
     PlannedAction,
 )
+from domain.coaching.trend import (
+    SOFT_SUGGESTION,
+    CheckinPoint,
+    TrendConfig,
+    TrendDetector,
+    TrendResult,
+)
 
 __all__ = [
     "CoachAction",
@@ -26,4 +33,9 @@ __all__ = [
     "PLAN_DAYS",
     "BASE_THRESHOLD",
     "SAFETY_NOTE",
+    "TrendDetector",
+    "TrendConfig",
+    "CheckinPoint",
+    "TrendResult",
+    "SOFT_SUGGESTION",
 ]
