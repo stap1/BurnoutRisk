@@ -12,6 +12,7 @@ license = { text = "MIT" }
 
 # Zaleznosci runtime (spec - stos technologiczny):
 #   pydantic       - walidacja DTO i danych statycznych
+#   cryptography   - AES-GCM (szyfrowanie pol wrazliwych: notes, comments)
 #   argon2-cffi    - KDF dla PIN (Argon2id)
 #   keyring        - magazyn klucza szyfrujacego (systemowy)
 #   matplotlib     - wykresy trendu osadzone w tkinter
@@ -19,6 +20,7 @@ license = { text = "MIT" }
 # tkinter i sqlite3 sa w bibliotece standardowej - nie sa tu wymieniane.
 dependencies = [
     "pydantic>=2",
+    "cryptography>=42",
     "argon2-cffi>=23",
     "keyring>=24",
     "matplotlib>=3.8",
