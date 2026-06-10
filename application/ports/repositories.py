@@ -17,6 +17,7 @@ from application.dto.coach import (
     CoachPlanDTO,
     OutcomeDTO,
 )
+from application.dto.education import EducationProgressDTO
 from application.dto.survey import (
     SessionSummaryDTO,
     SurveyAnswersDTO,
@@ -89,9 +90,9 @@ class IEducationRepository(ABC):
     """Trwałość postępu w module edukacyjnym (Faza 5)."""
 
     @abstractmethod
-    def get_progress(self, topic_id: str) -> object | None:
+    def get_progress(self, topic_id: str) -> EducationProgressDTO | None:
         """Postęp dla tematu lub None."""
 
     @abstractmethod
-    def upsert_progress(self, progress: object) -> None:
+    def upsert_progress(self, progress: EducationProgressDTO) -> None:
         """Zapisuje/aktualizuje postęp (first/last viewed, quiz_score)."""

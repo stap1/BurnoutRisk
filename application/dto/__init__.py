@@ -6,6 +6,12 @@ from application.dto.coach import (
     CoachPlanDTO,
     OutcomeDTO,
 )
+from application.dto.education import (
+    EducationProgressDTO,
+    EducationSectionDTO,
+    EducationTopicDTO,
+    QuizQuestionDTO,
+)
 from application.dto.survey import (
     AnswerDTO,
     AreaScoreDTO,
@@ -24,4 +30,8 @@ __all__ = [
     "CoachActionDTO",
     "CheckInDTO",
     "OutcomeDTO",
+    "EducationTopicDTO",
+    "EducationSectionDTO",
+    "QuizQuestionDTO",
+    "EducationProgressDTO",
 ]
