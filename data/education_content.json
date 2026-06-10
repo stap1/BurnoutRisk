@@ -1,0 +1,120 @@
+{
+  "wersja": "1.0",
+  "zweryfikowano": "2026-06-10",
+  "zastrzezenie": "To materiał edukacyjny, a nie diagnoza. Aplikacja nie ocenia, czy ktoś jest wypalony, i nie zastępuje kontaktu ze specjalistą.",
+  "tematy": [
+    {
+      "id": "czym-jest-wypalenie",
+      "tytul": "Czym jest wypalenie zawodowe",
+      "sekcje": [
+        { "naglowek": "Krótka definicja", "tresc": "Światowa Organizacja Zdrowia (WHO) w klasyfikacji ICD-11 opisuje wypalenie jako zespół wynikający z przewlekłego, nieskutecznie zarządzanego stresu w pracy. To pojęcie odnosi się wyłącznie do kontekstu zawodowego." },
+        { "naglowek": "To nie jest choroba", "tresc": "W ICD-11 wypalenie zostało ujęte jako zjawisko zawodowe (occupational phenomenon), a nie jednostka chorobowa. Znalazło się w rozdziale dotyczącym czynników wpływających na stan zdrowia, nie wśród chorób." },
+        { "naglowek": "Czym różni się od stresu i depresji", "tresc": "Stres bywa przejściowy i nie zawsze szkodzi. Wypalenie wiąże się z długotrwałym stresem w pracy. Depresja to odrębne, szersze zjawisko, które obejmuje wiele obszarów życia i wymaga oceny specjalisty - tego aplikacja nie rozstrzyga." }
+      ],
+      "wazne_w_skrocie": [
+        "Wypalenie wiąże się z przewlekłym stresem w pracy.",
+        "Wg WHO to zjawisko zawodowe, nie choroba.",
+        "To nie to samo co depresja - jej ocena należy do specjalisty."
+      ],
+      "kiedy_szukac_pomocy": "Jeśli trudności utrzymują się, nasilają lub wpływają na sen, zdrowie i relacje poza pracą - warto porozmawiać z lekarzem lub psychologiem.",
+      "quiz": [
+        { "pytanie": "Jak WHO (ICD-11) klasyfikuje wypalenie?", "odpowiedzi": ["Jako chorobę", "Jako zjawisko zawodowe", "Jako zaburzenie lękowe"], "poprawna": 1 },
+        { "pytanie": "Z czym przede wszystkim wiąże się wypalenie?", "odpowiedzi": ["Z przewlekłym stresem w pracy", "Z jedną nieprzespaną nocą", "Z porą roku"], "poprawna": 0 },
+        { "pytanie": "Czy ta aplikacja stawia diagnozę?", "odpowiedzi": ["Tak", "Nie", "Tylko w trybie PIN"], "poprawna": 1 },
+        { "pytanie": "Czym wypalenie różni się od depresji?", "odpowiedzi": ["Niczym", "Depresja obejmuje wiele obszarów życia i wymaga oceny specjalisty", "Wypalenie jest poważniejsze"], "poprawna": 1 },
+        { "pytanie": "Do jakiego kontekstu odnosi się pojęcie wypalenia wg ICD-11?", "odpowiedzi": ["Do życia rodzinnego", "Do kontekstu zawodowego", "Do każdego obszaru życia"], "poprawna": 1 }
+      ]
+    },
+    {
+      "id": "objawy-trzy-wymiary",
+      "tytul": "Trzy wymiary: jak to bywa odczuwane",
+      "sekcje": [
+        { "naglowek": "Model trójczynnikowy", "tresc": "Christina Maslach opisała wypalenie w trzech wymiarach. To rama do rozumienia doświadczenia, nie lista objawów do samodiagnozy." },
+        { "naglowek": "Wyczerpanie", "tresc": "Poczucie utraty energii, zmęczenie, które nie mija po odpoczynku." },
+        { "naglowek": "Cynizm i dystans", "tresc": "Narastające zniechęcenie i zdystansowanie wobec pracy, czasem wobec ludzi, z którymi się pracuje." },
+        { "naglowek": "Obniżona skuteczność zawodowa", "tresc": "Wrażenie, że robi się mniej i gorzej, spadek poczucia kompetencji i sprawczości." }
+      ],
+      "wazne_w_skrocie": [
+        "Trzy wymiary wg Maslach: wyczerpanie, cynizm i dystans, obniżona skuteczność.",
+        "To rama rozumienia, nie test na wypalenie.",
+        "Pojawienie się tych odczuć nie oznacza diagnozy."
+      ],
+      "kiedy_szukac_pomocy": "Jeśli wyczerpanie lub zniechęcenie utrzymują się tygodniami i utrudniają codzienne funkcjonowanie, rozważ rozmowę ze specjalistą.",
+      "quiz": [
+        { "pytanie": "Ile wymiarów ma model wypalenia wg Maslach?", "odpowiedzi": ["Dwa", "Trzy", "Pięć"], "poprawna": 1 },
+        { "pytanie": "Który z poniższych to jeden z wymiarów?", "odpowiedzi": ["Wyczerpanie", "Gorączka", "Bezsenność sezonowa"], "poprawna": 0 },
+        { "pytanie": "Co oznacza wymiar cynizmu i dystansu?", "odpowiedzi": ["Większe zaangażowanie", "Zniechęcenie i zdystansowanie wobec pracy", "Lepszą koncentrację"], "poprawna": 1 },
+        { "pytanie": "Czego dotyczy obniżona skuteczność zawodowa?", "odpowiedzi": ["Spadku poczucia kompetencji i sprawczości", "Wzrostu pensji", "Liczby godzin pracy"], "poprawna": 0 },
+        { "pytanie": "Czy odczuwanie tych wymiarów to diagnoza?", "odpowiedzi": ["Tak, to pewna diagnoza", "Nie, to rama rozumienia doświadczenia", "Tylko u kierowników"], "poprawna": 1 }
+      ]
+    },
+    {
+      "id": "etapy-jako-model-opisowy",
+      "tytul": "Etapy - ostrożnie z modelami",
+      "sekcje": [
+        { "naglowek": "Modele opisowe", "tresc": "Bywają opisywane etapy lub fazy narastania trudności. To modele pomocnicze, a nie sztywny scenariusz, przez który każdy musi przejść." },
+        { "naglowek": "Nie są liniowe ani nieuchronne", "tresc": "Trudności mogą się nasilać i ustępować, wracać i mijać. Nie istnieje jeden obowiązkowy ciąg etapów, a ich pojawienie się nie przesądza, co będzie dalej." },
+        { "naglowek": "Po co o tym mówimy", "tresc": "Świadomość, że stan bywa zmienny, pomaga unikać poczucia bezradności - wiele rzeczy można zmienić." }
+      ],
+      "wazne_w_skrocie": [
+        "Etapy to model opisowy, nie sztywny scenariusz.",
+        "Trudności nie są liniowe ani nieuchronne.",
+        "Aplikacja nie przypisuje nikomu etapu."
+      ],
+      "kiedy_szukac_pomocy": "Jeśli masz wrażenie, że sytuacja stale się pogarsza mimo prób zmiany, dobrym krokiem jest konsultacja ze specjalistą.",
+      "quiz": [
+        { "pytanie": "Jak należy traktować etapy wypalenia?", "odpowiedzi": ["Jako sztywny, obowiązkowy ciąg", "Jako model opisowy", "Jako diagnozę medyczną"], "poprawna": 1 },
+        { "pytanie": "Czy etapy są liniowe i nieuchronne?", "odpowiedzi": ["Tak", "Nie", "Zawsze"], "poprawna": 1 },
+        { "pytanie": "Czy aplikacja przypisuje użytkownikowi etap?", "odpowiedzi": ["Tak", "Nie", "Po ankiecie tak"], "poprawna": 1 },
+        { "pytanie": "Co pomaga unikać poczucia bezradności?", "odpowiedzi": ["Świadomość, że stan bywa zmienny", "Ignorowanie problemu", "Porównywanie się z innymi"], "poprawna": 0 },
+        { "pytanie": "Czy pojawienie się trudności przesądza, co będzie dalej?", "odpowiedzi": ["Tak", "Nie", "Tylko zimą"], "poprawna": 1 }
+      ]
+    },
+    {
+      "id": "czynniki-ryzyka",
+      "tytul": "Czynniki ryzyka w pracy",
+      "sekcje": [
+        { "naglowek": "Dopasowanie człowiek-praca", "tresc": "Ryzyko rośnie tam, gdzie pojawia się rozdźwięk między osobą a warunkami pracy. Poniższe obszary odpowiadają obszarom z ankiety." },
+        { "naglowek": "Relacje i bezpieczeństwo", "tresc": "Konflikty, brak wsparcia, a w poważnych sytuacjach nękanie czy agresja - to obszar wymagający odrębnego potraktowania." },
+        { "naglowek": "Obciążenie i kontrola", "tresc": "Zbyt duże obciążenie, silny stres, niski wpływ na sposób pracy i priorytety zwiększają ryzyko." },
+        { "naglowek": "Nagrody, sprawiedliwość, granice", "tresc": "Brak uznania, poczucie niesprawiedliwości, zacieranie granic między pracą a życiem prywatnym również mają znaczenie." }
+      ],
+      "wazne_w_skrocie": [
+        "Ryzyko rośnie przy rozdźwięku między osobą a warunkami pracy.",
+        "Liczą się: relacje, obciążenie, kontrola, nagrody, granice.",
+        "Nękanie i agresja to obszar wymagający osobnego, poważnego podejścia."
+      ],
+      "kiedy_szukac_pomocy": "Jeśli doświadczasz nękania, gróźb lub agresji w pracy - to sytuacja wykraczająca poza możliwości aplikacji. Rozważ kontakt z zaufaną osobą, działem HR lub wsparciem zewnętrznym.",
+      "quiz": [
+        { "pytanie": "Kiedy rośnie ryzyko wypalenia?", "odpowiedzi": ["Przy rozdźwięku między osobą a warunkami pracy", "Przy każdej zmianie zadań", "Tylko przy nadgodzinach"], "poprawna": 0 },
+        { "pytanie": "Który obszar wymaga szczególnie poważnego podejścia?", "odpowiedzi": ["Wybór koloru biura", "Nękanie i agresja", "Rodzaj kawy"], "poprawna": 1 },
+        { "pytanie": "Co zalicza się do czynników ryzyka?", "odpowiedzi": ["Niski wpływ na sposób pracy", "Wysokie zarobki", "Krótkie spotkania"], "poprawna": 0 },
+        { "pytanie": "Czego dotyczy obszar granic?", "odpowiedzi": ["Zacierania granic między pracą a życiem prywatnym", "Granic państwa", "Limitu e-maili"], "poprawna": 0 },
+        { "pytanie": "Co robić w razie gróźb lub agresji w pracy?", "odpowiedzi": ["Zignorować", "Rozważyć kontakt z HR, zaufaną osobą lub wsparciem zewnętrznym", "Poczekać aż minie"], "poprawna": 1 }
+      ]
+    },
+    {
+      "id": "co-pomaga",
+      "tytul": "Co pomaga",
+      "sekcje": [
+        { "naglowek": "Podstawy regeneracji", "tresc": "Sen, ruch i realny odpoczynek to fundament. Drobne, regularne kroki działają lepiej niż wielkie postanowienia." },
+        { "naglowek": "Granice i organizacja pracy", "tresc": "Ustalanie granic dostępności, praca w blokach, przerwy i higiena cyfrowa pomagają obniżyć obciążenie." },
+        { "naglowek": "Wsparcie i rozmowa", "tresc": "Kontakt z bliskimi, rozmowa z przełożonym o oczekiwaniach i możliwościach, a gdy trzeba - profesjonalna pomoc." },
+        { "naglowek": "Małe kroki", "tresc": "Nie chodzi o naprawienie wszystkiego naraz. Jedna zmiana naraz, dopasowana do Twojego budżetu czasu, ma większą szansę się utrzymać." }
+      ],
+      "wazne_w_skrocie": [
+        "Sen, ruch i odpoczynek to fundament.",
+        "Granice, organizacja pracy i wsparcie obniżają obciążenie.",
+        "Lepiej małe, regularne kroki niż wszystko naraz."
+      ],
+      "kiedy_szukac_pomocy": "Jeśli mimo prób nic nie pomaga, a stan się utrzymuje, profesjonalna pomoc (lekarz, psycholog) jest dobrym i odważnym krokiem.",
+      "quiz": [
+        { "pytanie": "Co jest fundamentem regeneracji?", "odpowiedzi": ["Sen, ruch i odpoczynek", "Więcej kawy", "Praca po godzinach"], "poprawna": 0 },
+        { "pytanie": "Co pomaga obniżyć obciążenie?", "odpowiedzi": ["Granice i organizacja pracy", "Brak przerw", "Stała dostępność"], "poprawna": 0 },
+        { "pytanie": "Jakie kroki działają najlepiej?", "odpowiedzi": ["Małe i regularne", "Tylko wielkie postanowienia", "Żadne"], "poprawna": 0 },
+        { "pytanie": "Z kim warto rozmawiać o oczekiwaniach?", "odpowiedzi": ["Z przełożonym", "Z nikim", "Wyłącznie ze sobą"], "poprawna": 0 },
+        { "pytanie": "Kiedy warto rozważyć profesjonalną pomoc?", "odpowiedzi": ["Gdy mimo prób stan się utrzymuje", "Nigdy", "Tylko w styczniu"], "poprawna": 0 }
+      ]
+    }
+  ]
+}
