@@ -1,14 +1,14 @@
 """Obiekty wynikowe scoringu (domena, czyste value objects).
 
-`AreaScore` - wynik pojedynczego obszaru A-F (spec §3.3). `ScoringResult`
-(pełny wynik) dojdzie w Prompcie 1.5.
+`AreaScore` - wynik pojedynczego obszaru A-F. `ScoringResult` - pełny wynik
+ankiety (spec §3.3).
 """
 
 from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict
 
-from domain.common import AreaStatus
+from domain.common import AreaStatus, RiskBand
 
 
 class AreaScore(BaseModel):
@@ -27,3 +27,22 @@ class AreaScore(BaseModel):
     status: AreaStatus
     answered: int
     question_count: int
+
+
+class ScoringResult(BaseModel):
+    """Pełny wynik scoringu jednej sesji (spec §3.3).
+
+    `total_score`/`risk_band` to `None`, gdy żaden obszar nie został oceniony.
+    `area_scores` zawiera wpis dla każdego obszaru (A-F) w stałej kolejności.
+    `top_areas` - obszary o najwyższym ryzyku (tylko RATED), napędzają profilowy
+    ekran wyniku i generator planu. `unrated_areas` - obszary bez wystarczających
+    danych (prezentowane neutralnie).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    total_score: float | None
+    risk_band: RiskBand | None
+    area_scores: tuple[AreaScore, ...]
+    top_areas: tuple[str, ...]
+    unrated_areas: tuple[str, ...]

@@ -20,17 +20,36 @@ from __future__ import annotations
 from collections.abc import Mapping
 from math import ceil
 
-from domain.common import AreaStatus
+from domain.common import AreaStatus, RiskBand
 from domain.survey.entities import SurveyDefinition
-from domain.survey.results import AreaScore
+from domain.survey.results import AreaScore, ScoringResult
 
 RAW_MIN = 0
 RAW_MAX = 4
+
+# Domyślna liczba obszarów o najwyższym ryzyku eksponowanych w wyniku (spec §3.2 krok 5).
+DOMYSLNE_TOP_OBSZARY = 3
 
 
 def min_required_answers(question_count: int) -> int:
     """Próg minimalnej liczby odpowiedzi: co najmniej połowa, zaokrąglona w górę."""
     return ceil(question_count / 2)
+
+
+def risk_band(score: float) -> RiskBand:
+    """Mapuje wynik 0-100 na wewnętrzne pasmo ryzyka (spec §5.5).
+
+    Granice: 0-24 LOW, 25-49 MODERATE, 50-69 HIGH, 70-100 VERY_HIGH. Pasma są
+    WEWNĘTRZNE (logika tonu/koloru/progów); słownictwo dla użytkownika powstaje
+    w prezentacji.
+    """
+    if score < 25:
+        return RiskBand.LOW
+    if score < 50:
+        return RiskBand.MODERATE
+    if score < 70:
+        return RiskBand.HIGH
+    return RiskBand.VERY_HIGH
 
 
 def recode_raw_answer(raw_answer: int | None, *, is_reversed: bool) -> int | None:
@@ -135,3 +154,57 @@ class ScoringEngine:
         if mianownik == 0:
             return None
         return licznik / mianownik
+
+    def top_areas(
+        self,
+        area_scores: Mapping[str, AreaScore],
+        *,
+        top_n: int = DOMYSLNE_TOP_OBSZARY,
+    ) -> tuple[str, ...]:
+        """Obszary o najwyższym ryzyku spośród ocenionych (spec §3.2 krok 5).
+
+        Tylko obszary `RATED`. Sortowanie malejąco po wyniku; przy remisie stałe,
+        deterministyczne rozstrzygnięcie po identyfikatorze obszaru (A..F).
+        Obszary `INSUFFICIENT_DATA` nie są kandydatami.
+        """
+        ocenione = [
+            a for a in area_scores.values()
+            if a.status is AreaStatus.RATED and a.score is not None
+        ]
+        ocenione.sort(key=lambda a: (-a.score, a.category_id))  # type: ignore[operator]
+        return tuple(a.category_id for a in ocenione[:top_n])
+
+    def score(
+        self,
+        raw_answers: Mapping[str, int | None],
+        *,
+        top_n: int = DOMYSLNE_TOP_OBSZARY,
+    ) -> ScoringResult:
+        """Składa pełny wynik ankiety (deterministycznie).
+
+        Łączy kroki §3.2: rekodowanie → wyniki obszarów → wynik całkowity z
+        renormalizacją → pasmo ryzyka → top obszary / obszary bez danych.
+        """
+        obszary = self.area_scores(raw_answers)
+
+        # area_scores w stałej kolejności kategorii definicji (A..F).
+        area_lista = tuple(
+            obszary[c.id] for c in self._definition.categories
+        )
+
+        total = self.total_score(raw_answers)
+        pasmo = risk_band(total) if total is not None else None
+
+        unrated = tuple(
+            c.id
+            for c in self._definition.categories
+            if obszary[c.id].status is AreaStatus.INSUFFICIENT_DATA
+        )
+
+        return ScoringResult(
+            total_score=total,
+            risk_band=pasmo,
+            area_scores=area_lista,
+            top_areas=self.top_areas(obszary, top_n=top_n),
+            unrated_areas=unrated,
+        )
