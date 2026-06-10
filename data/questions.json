@@ -1,0 +1,45 @@
+{
+  "wersja": "1.0",
+  "skala": {
+    "min": 0,
+    "max": 4,
+    "etykiety": {
+      "0": "zdecydowanie nie / nigdy",
+      "1": "raczej nie / rzadko",
+      "2": "trudno powiedzieć / czasami",
+      "3": "raczej tak / często",
+      "4": "zdecydowanie tak / bardzo często"
+    }
+  },
+  "kategorie": [
+    { "id": "A", "nazwa": "Relacje i bezpieczeństwo psychospołeczne", "waga": 26 },
+    { "id": "B", "nazwa": "Nagrody, uznanie i sprawiedliwość", "waga": 20 },
+    { "id": "C", "nazwa": "Obciążenie i stres", "waga": 20 },
+    { "id": "D", "nazwa": "Równowaga praca-życie i czas pracy", "waga": 16 },
+    { "id": "E", "nazwa": "Kontrola i autonomia", "waga": 10 },
+    { "id": "F", "nazwa": "Zasoby osobiste (ochronne)", "waga": 8 }
+  ],
+  "pytania": [
+    { "id": "F1", "kategoria": "F", "tresc": "Po trudnych sytuacjach w pracy szybko wracam do równowagi.", "odwracane": true, "pomijalne": false, "kolejnosc": 1 },
+    { "id": "F2", "kategoria": "F", "tresc": "Mam skuteczne sposoby radzenia sobie ze stresem.", "odwracane": true, "pomijalne": false, "kolejnosc": 2 },
+    { "id": "F3", "kategoria": "F", "tresc": "Mam energię także na sprawy poza pracą.", "odwracane": true, "pomijalne": false, "kolejnosc": 3 },
+    { "id": "E1", "kategoria": "E", "tresc": "Mam wpływ na to, w jaki sposób wykonuję swoją pracę.", "odwracane": true, "pomijalne": false, "kolejnosc": 4 },
+    { "id": "E2", "kategoria": "E", "tresc": "Mam wpływ na priorytety i plan swojej pracy.", "odwracane": true, "pomijalne": false, "kolejnosc": 5 },
+    { "id": "E3", "kategoria": "E", "tresc": "Mierzę się z wysokimi wymaganiami przy niewielkim wpływie na sposób ich realizacji.", "odwracane": false, "pomijalne": false, "kolejnosc": 6 },
+    { "id": "A1", "kategoria": "A", "tresc": "W ostatnim czasie doświadczam w pracy nękania lub uporczywie nieprzyjemnego traktowania.", "odwracane": false, "pomijalne": true, "kolejnosc": 7 },
+    { "id": "A2", "kategoria": "A", "tresc": "Spotykam się w pracy z groźbami lub agresją (słowną albo fizyczną).", "odwracane": false, "pomijalne": true, "kolejnosc": 8 },
+    { "id": "A3", "kategoria": "A", "tresc": "W moim zespole dochodzi do poważnych konfliktów.", "odwracane": false, "pomijalne": false, "kolejnosc": 9 },
+    { "id": "A4", "kategoria": "A", "tresc": "Mam wsparcie ze strony przełożonego lub współpracowników, gdy go potrzebuję.", "odwracane": true, "pomijalne": false, "kolejnosc": 10 },
+    { "id": "B1", "kategoria": "B", "tresc": "Wkładam w pracę znacznie więcej, niż otrzymuję w zamian (wynagrodzenie, uznanie, szanse rozwoju).", "odwracane": false, "pomijalne": false, "kolejnosc": 11 },
+    { "id": "B2", "kategoria": "B", "tresc": "Zasady i decyzje w mojej pracy bywają niesprawiedliwe.", "odwracane": false, "pomijalne": false, "kolejnosc": 12 },
+    { "id": "B3", "kategoria": "B", "tresc": "Moja praca daje mi poczucie satysfakcji i sensu.", "odwracane": true, "pomijalne": false, "kolejnosc": 13 },
+    { "id": "B4", "kategoria": "B", "tresc": "Niepokoję się o pewność swojego zatrudnienia.", "odwracane": false, "pomijalne": true, "kolejnosc": 14 },
+    { "id": "C1", "kategoria": "C", "tresc": "Mam zbyt dużo pracy w stosunku do czasu, jakim dysponuję.", "odwracane": false, "pomijalne": false, "kolejnosc": 15 },
+    { "id": "C2", "kategoria": "C", "tresc": "Często odczuwam silny stres związany z pracą.", "odwracane": false, "pomijalne": false, "kolejnosc": 16 },
+    { "id": "C3", "kategoria": "C", "tresc": "Moja praca jest dla mnie obciążająca emocjonalnie.", "odwracane": false, "pomijalne": false, "kolejnosc": 17 },
+    { "id": "C4", "kategoria": "C", "tresc": "Trudno mi „wyłączyć się\" i przestać myśleć o pracy po jej zakończeniu.", "odwracane": false, "pomijalne": false, "kolejnosc": 18 },
+    { "id": "D1", "kategoria": "D", "tresc": "Praca wkracza w moje życie prywatne.", "odwracane": false, "pomijalne": false, "kolejnosc": 19 },
+    { "id": "D2", "kategoria": "D", "tresc": "Pracuję dłużej niż planowo lub pozostaję „pod telefonem\" poza godzinami pracy.", "odwracane": false, "pomijalne": false, "kolejnosc": 20 },
+    { "id": "D3", "kategoria": "D", "tresc": "Brakuje mi regeneracji między kolejnymi dniami pracy.", "odwracane": false, "pomijalne": false, "kolejnosc": 21 }
+  ]
+}
