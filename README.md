@@ -2,13 +2,13 @@
 
 > Lokalne, offline-first narzędzie **edukacyjne** do oceny ryzyka wypalenia zawodowego, ze szczególnym uwzględnieniem środowiska IT.
 
-![Status](https://img.shields.io/badge/status-w%20budowie-orange)
-![Etap](https://img.shields.io/badge/etap-Faza%200%20uko%C5%84czona-blue)
+![Status](https://img.shields.io/badge/status-MVP%20uko%C5%84czone-brightgreen)
+![Etap](https://img.shields.io/badge/etap-Fazy%200--9%20uko%C5%84czone-blue)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
-![Tests](https://img.shields.io/badge/pytest-zielony-brightgreen)
+![Tests](https://img.shields.io/badge/pytest-289%20zielonych-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Aplikacja desktopowa w Pythonie, która na podstawie ankiety psychometrycznej (18 pytań, 6 obszarów) buduje **profil ryzyka wypalenia**, oferuje moduł edukacyjny oraz deterministyczny plan wsparcia (coaching). Wszystkie dane pozostają **wyłącznie lokalnie** na urządzeniu użytkownika.
+Aplikacja desktopowa w Pythonie, która na podstawie ankiety psychometrycznej (21 pytań, 6 obszarów) buduje **profil ryzyka wypalenia**, oferuje moduł edukacyjny oraz deterministyczny plan wsparcia (coaching). Wszystkie dane pozostają **wyłącznie lokalnie** na urządzeniu użytkownika.
 
 > [!IMPORTANT]
 > **To nie jest narzędzie diagnostyczne ani medyczne.** Aplikacja ma charakter wyłącznie edukacyjny i informacyjny. Nie stawia rozpoznań, nie zastępuje kontaktu ze specjalistą. Jeśli mierzysz się z trudnym stanem, skontaktuj się z osobą lub instytucją oferującą profesjonalne wsparcie.
@@ -47,18 +47,18 @@ Celem jest narzędzie, które:
 ## Status
 
 > [!NOTE]
-> **Faza 0 ukończona.** Repozytorium zawiera fundament projektu: strukturę katalogów zgodną z architekturą warstwową, konfigurację zależności, działający zestaw testów (`pytest`) oraz podstawowe typy domenowe. **Logika aplikacji (silnik scoringu, coaching, interfejs) jest dopiero w trakcie budowy** - zgodnie z planem [`todo.md`](../ProjectFiles/todo.md).
+> **MVP ukończone (Fazy 0-9).** Pełna aplikacja: ankieta z miękkim lądowaniem, silnik scoringu, coaching z detektorem trendu, moduł edukacyjny, safety-net, interfejs tkinter, raporty/eksport oraz pakowanie PyInstaller. **289 testów na zielono**, pokrycie domeny 92% (rdzeń scoringu/generatora/trendu 100%).
 
 | Faza | Zakres | Stan |
 |---|---|---|
 | **0 - Fundament** | szkielet repo, `pyproject.toml`, `pytest`, enumy domenowe | ✅ ukończona |
-| 1 - Domena: scoring | rekodowanie, progi, renormalizacja wag, pasma ryzyka | ⏳ następna |
-| 2 - Aplikacja | porty, DTO, serwis ankiety | ⬜ planowana |
-| 3 - Infrastruktura | SQLite, szyfrowanie, klucze, tryb PIN | ⬜ planowana |
-| 4 - Coaching | generator planu, detektor trendu | ⬜ planowana |
-| 5 - Treści i safety-net | zasoby wsparcia, moduł edukacyjny | ⬜ planowana |
-| 6-7 - Fasada i UI | composition root, ekrany tkinter | ⬜ planowana |
-| 8-9 - Raporty, pakowanie | wykresy, eksport, PyInstaller | ⬜ planowana |
+| **1 - Domena: scoring** | rekodowanie, progi, renormalizacja wag, pasma ryzyka | ✅ ukończona |
+| **2 - Aplikacja** | porty, DTO, serwis ankiety | ✅ ukończona |
+| **3 - Infrastruktura** | SQLite, szyfrowanie, klucze, tryb PIN | ✅ ukończona |
+| **4 - Coaching** | generator planu, detektor trendu | ✅ ukończona |
+| **5 - Treści i safety-net** | zasoby wsparcia, moduł edukacyjny | ✅ ukończona |
+| **6-7 - Fasada i UI** | composition root, ekrany tkinter | ✅ ukończona |
+| **8-9 - Raporty, pakowanie** | wykresy, eksport, PyInstaller | ✅ ukończona |
 
 Pełna, szczegółowa lista zadań z bramkami testowymi: [`todo.md`](../ProjectFiles/todo.md).
 
@@ -115,7 +115,7 @@ Zasada nadrzędna: **w warstwie domenowej nie ma żadnego I/O** (baza, pliki, si
 
 ## Struktura repozytorium
 
-> Stan po Fazie 0. Katalogi warstw są utworzone; wypełniają się kodem wraz z kolejnymi fazami.
+> Warstwy w pełni zaimplementowane (Fazy 0-9).
 
 Repozytorium aplikacji znajduje się w katalogu `BurnoutRiskApp/`. Dokumenty planistyczne (specyfikacja, `todo.md`) oraz `CLAUDE.md` leżą **o poziom wyżej**, w katalogu roboczym projektu - poza samym repozytorium kodu.
 
@@ -148,28 +148,35 @@ SoftwareHouse/BurnoutRiskApp/        # katalog roboczy (workspace)
     └── README.md
 ```
 
-## Uruchomienie środowiska deweloperskiego
-
-> [!NOTE]
-> Na obecnym etapie (Faza 0) uruchomienie służy weryfikacji środowiska i przejścia testów, a **nie** korzystaniu z aplikacji - interfejs i logika dopiero powstają.
+## Uruchomienie
 
 Wymagania: **Python 3.11+**.
 
 ```bash
-# 1. Sklonuj repozytorium
+# 1. Sklonuj repozytorium i wejdź do katalogu aplikacji
 git clone <adres-repozytorium>
-cd burnout_monitor
+cd BurnoutRiskApp
 
-# 2. (zalecane) utwórz i aktywuj środowisko wirtualne
+# 2. (zalecane) środowisko wirtualne
 python -m venv .venv
 source .venv/bin/activate        # Linux/macOS
 # .venv\Scripts\activate         # Windows
 
-# 3. Zainstaluj zależności deweloperskie
+# 3. Zależności deweloperskie
 pip install -e ".[dev]"
 
-# 4. Uruchom testy (powinny przejść na zielono)
+# 4. Testy (bramka - powinny przejść na zielono)
 pytest
+
+# 5. Uruchomienie aplikacji
+python main.py
+```
+
+### Pakowanie (plik wykonywalny)
+
+```bash
+pyinstaller BurnoutRiskMonitor.spec      # tryb --onedir
+# wynik: dist/BurnoutRiskMonitor/BurnoutRiskMonitor.exe (+ dołączone data/*.json)
 ```
 
 ## Testy
@@ -197,12 +204,12 @@ Struktura katalogu `tests/` odzwierciedla warstwy architektury. Najgęstsze pokr
 Najbliższe etapy (szczegóły w [`todo.md`](../ProjectFiles/todo.md)):
 
 - [x] **Faza 0** - fundament: struktura, zależności, `pytest`, typy domenowe
-- [ ] **Faza 1** - silnik scoringu (rekodowanie, progi „za mało danych", renormalizacja wag, pasma ryzyka)
-- [ ] **Faza 2-3** - warstwa aplikacji + infrastruktura (SQLite, szyfrowanie, tryb PIN z recovery)
-- [ ] **Faza 4** - coaching: deterministyczny plan 14-dniowy + detektor trendu
-- [ ] **Faza 5** - treści edukacyjne + safety-net (zweryfikowane zasoby)
-- [ ] **Faza 6-7** - fasada i interfejs (tkinter)
-- [ ] **Faza 8-9** - raportowanie, eksport, pakowanie
+- [x] **Faza 1** - silnik scoringu (rekodowanie, progi „za mało danych", renormalizacja wag, pasma ryzyka)
+- [x] **Faza 2-3** - warstwa aplikacji + infrastruktura (SQLite, szyfrowanie, tryb PIN z recovery)
+- [x] **Faza 4** - coaching: deterministyczny plan 14-dniowy + detektor trendu
+- [x] **Faza 5** - treści edukacyjne + safety-net (zweryfikowane zasoby)
+- [x] **Faza 6-7** - fasada i interfejs (tkinter)
+- [x] **Faza 8-9** - raportowanie, eksport, pakowanie
 
 **Świadomie poza zakresem MVP** (możliwe rozszerzenia w przyszłości): blokada biometryczna, uczący się silnik rekomendacji (CoachEngine 2.0), dopracowany interfejs webowy.
 
@@ -213,8 +220,9 @@ Aplikacja przetwarza dane dotyczące dobrostanu, które należą do szczególnej
 - **wszystko działa lokalnie** - brak komunikacji sieciowej, chmury i telemetrii,
 - aplikacja domyślnie działa **anonimowo** (bez imienia i danych identyfikujących),
 - wrażliwe pola tekstowe (notatki) są **szyfrowane** (AES-GCM); klucz przechowuje systemowy menedżer poświadczeń,
-- opcjonalny **PIN** dodaje realną warstwę ochrony (Argon2id + envelope encryption), wraz ze ścieżką awaryjną na wypadek jego utraty,
-- użytkownik ma **pełną kontrolę nad retencją** - dane są przechowywane bezterminowo, dopóki sam ich nie usunie (kasowanie pojedynczych sesji lub pełny reset).
+- opcjonalny **PIN** dodaje realną warstwę ochrony (Argon2id + envelope encryption), wraz ze ścieżką awaryjną (recovery) na wypadek jego utraty,
+- użytkownik ma **pełną kontrolę nad retencją** - dane są przechowywane bezterminowo, dopóki sam ich nie usunie (kasowanie pojedynczych sesji lub pełny reset),
+- **eksport danych** (CSV) to jedyne miejsce, w którym dane opuszczają bazę w postaci jawnej (niezaszyfrowanej) - dlatego przed zapisem aplikacja pokazuje **wyraźne ostrzeżenie i wymaga potwierdzenia**; plik trafia wyłącznie lokalnie, na ścieżkę wybraną przez użytkownika.
 
 Szczegóły modelu bezpieczeństwa: [specyfikacja, sekcja 2](../ProjectFiles/burnout_monitor_spec_v3_1.md).
 
