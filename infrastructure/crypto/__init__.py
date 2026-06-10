@@ -6,10 +6,22 @@ from infrastructure.crypto.aes_gcm import (
     DecryptionError,
 )
 from infrastructure.crypto.key_store import KeyringKeyStore
+from infrastructure.crypto.pin import (
+    Envelope,
+    KeyRecoveryNeeded,
+    WrongPinError,
+    unwrap_db_key,
+    wrap_db_key,
+)
 
 __all__ = [
     "AesGcmCryptoService",
     "DecryptionError",
     "KEY_BYTES",
     "KeyringKeyStore",
+    "Envelope",
+    "WrongPinError",
+    "KeyRecoveryNeeded",
+    "wrap_db_key",
+    "unwrap_db_key",
 ]

@@ -15,6 +15,7 @@ testować logikę bez dotykania prawdziwego magazynu poświadczeń.
 from __future__ import annotations
 
 import base64
+import binascii
 import os
 from typing import Protocol
 
@@ -22,6 +23,7 @@ import keyring
 
 from application.ports.security import IKeyStore
 from infrastructure.crypto.aes_gcm import KEY_BYTES
+from infrastructure.crypto.pin import KeyRecoveryNeeded
 
 SERVICE_NAME = "BurnoutRiskMonitor"
 DEFAULT_USERNAME = "db_key"
@@ -51,7 +53,15 @@ class KeyringKeyStore(IKeyStore):
     def get_or_create_key(self) -> bytes:
         zapisany = self._backend.get_password(self._service, self._username)
         if zapisany:
-            return base64.b64decode(zapisany)
+            try:
+                klucz = base64.b64decode(zapisany, validate=True)
+            except (binascii.Error, ValueError) as exc:
+                # Uszkodzony wpis (np. zmiana hasła OS, przeniesienie maszyny) -
+                # nie crashujemy, sygnalizujemy potrzebę recovery (spec §2.2.2).
+                raise KeyRecoveryNeeded("Klucz w keyring jest uszkodzony.") from exc
+            if len(klucz) != KEY_BYTES:
+                raise KeyRecoveryNeeded("Klucz w keyring ma nieprawidłową długość.")
+            return klucz
 
         klucz = os.urandom(KEY_BYTES)
         self._backend.set_password(
