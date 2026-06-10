@@ -8,16 +8,29 @@ Rekodowanie (spec §3.2 krok 1):
 - pytanie odwracane:      risk_score = 4 - raw_answer
 - pytanie nieodwracane:   risk_score = raw_answer
 - pytanie pominięte:      risk_score = None  (brak danych, NIE zero)
+
+Wynik obszaru (spec §3.2 krok 2-3):
+- S_obszar = (avg(risk_score udzielonych) / 4) * 100
+- obszar oceniany, gdy udzielono >= ceil(liczba_pytań / 2) odpowiedzi
+  (A/B/C: min 2 z 4; D/E/F: min 2 z 3); poniżej -> INSUFFICIENT_DATA, score=None.
 """
 
 from __future__ import annotations
 
 from collections.abc import Mapping
+from math import ceil
 
+from domain.common import AreaStatus
 from domain.survey.entities import SurveyDefinition
+from domain.survey.results import AreaScore
 
 RAW_MIN = 0
 RAW_MAX = 4
+
+
+def min_required_answers(question_count: int) -> int:
+    """Próg minimalnej liczby odpowiedzi: co najmniej połowa, zaokrąglona w górę."""
+    return ceil(question_count / 2)
 
 
 def recode_raw_answer(raw_answer: int | None, *, is_reversed: bool) -> int | None:
@@ -62,3 +75,39 @@ class ScoringEngine:
             q.id: recode_raw_answer(raw_answers.get(q.id), is_reversed=q.is_reversed)
             for q in self._definition.questions
         }
+
+    def area_scores(
+        self, raw_answers: Mapping[str, int | None]
+    ) -> dict[str, AreaScore]:
+        """Liczy wynik każdego obszaru A-F z progiem minimalnej liczby odpowiedzi.
+
+        Zwraca wpis dla każdej kategorii definicji. Obszar poniżej progu dostaje
+        `status = INSUFFICIENT_DATA` i `score = None` (nie wchodzi do wyniku
+        całkowitego - patrz Prompt 1.4). Średnia liczona wyłącznie z udzielonych
+        odpowiedzi (pominięte/None są ignorowane, nie liczą się jako zero).
+        """
+        recoded = self.recode(raw_answers)
+
+        wyniki: dict[str, AreaScore] = {}
+        for c in self._definition.categories:
+            udzielone = [
+                recoded[qid] for qid in c.question_ids if recoded[qid] is not None
+            ]
+            liczba_pytan = len(c.question_ids)
+
+            if len(udzielone) >= min_required_answers(liczba_pytan):
+                srednia = sum(udzielone) / len(udzielone)
+                score = (srednia / RAW_MAX) * 100
+                status = AreaStatus.RATED
+            else:
+                score = None
+                status = AreaStatus.INSUFFICIENT_DATA
+
+            wyniki[c.id] = AreaScore(
+                category_id=c.id,
+                score=score,
+                status=status,
+                answered=len(udzielone),
+                question_count=liczba_pytan,
+            )
+        return wyniki
