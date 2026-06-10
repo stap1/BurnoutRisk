@@ -6,10 +6,9 @@ import json
 from pathlib import Path
 
 from domain.coaching import CoachActionLibrary
+from infrastructure.resources import data_file
 
-DEFAULT_ACTIONS_PATH = (
-    Path(__file__).resolve().parents[2] / "data" / "coach_actions.json"
-)
+DEFAULT_ACTIONS_PATH = data_file("coach_actions.json")
 
 
 def load_coach_actions(path: Path | str | None = None) -> CoachActionLibrary:

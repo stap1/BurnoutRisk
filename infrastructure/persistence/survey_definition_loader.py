@@ -11,10 +11,9 @@ import json
 from pathlib import Path
 
 from domain.survey import SurveyDefinition
+from infrastructure.resources import data_file
 
-# data/questions.json względem korzenia repozytorium (ten plik leży w
-# infrastructure/persistence/, więc cofamy się o dwa poziomy).
-DEFAULT_QUESTIONS_PATH = Path(__file__).resolve().parents[2] / "data" / "questions.json"
+DEFAULT_QUESTIONS_PATH = data_file("questions.json")
 
 
 def load_survey_definition(path: Path | str | None = None) -> SurveyDefinition:

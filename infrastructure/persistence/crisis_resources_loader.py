@@ -10,10 +10,9 @@ import json
 from pathlib import Path
 
 from domain.safety import CrisisResources
+from infrastructure.resources import data_file
 
-DEFAULT_CRISIS_PATH = (
-    Path(__file__).resolve().parents[2] / "data" / "crisis_resources.json"
-)
+DEFAULT_CRISIS_PATH = data_file("crisis_resources.json")
 
 
 def load_crisis_resources(path: Path | str | None = None) -> CrisisResources:

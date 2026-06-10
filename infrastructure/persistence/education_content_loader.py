@@ -6,10 +6,9 @@ import json
 from pathlib import Path
 
 from domain.education import EducationContent
+from infrastructure.resources import data_file
 
-DEFAULT_EDUCATION_PATH = (
-    Path(__file__).resolve().parents[2] / "data" / "education_content.json"
-)
+DEFAULT_EDUCATION_PATH = data_file("education_content.json")
 
 
 def load_education_content(path: Path | str | None = None) -> EducationContent:

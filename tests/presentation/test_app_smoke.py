@@ -8,7 +8,7 @@ def test_okno_startuje(app) -> None:  # noqa: ANN001
 
 
 def test_ekran_startowy_widoczny(app) -> None:  # noqa: ANN001
-    # Po starcie pokazany jest jakiś ekran (placeholder w 7.1).
+    # Po starcie pokazany jest ekran powitalny.
     assert "start" in app._views
 
 
