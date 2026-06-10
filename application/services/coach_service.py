@@ -63,6 +63,14 @@ class CoachService:
     def get_latest_plan(self) -> CoachPlanDTO | None:
         return self._coach_repo.get_latest_plan()
 
+    def update_action(
+        self, action_id: str, *, completed: bool, rating: int | None
+    ) -> None:
+        completed_date = self._clock().date().isoformat() if completed else None
+        self._coach_repo.update_action(
+            action_id, completed_date=completed_date, rating=rating
+        )
+
     def submit_checkin(self, checkin: CheckInDTO) -> CheckInResultDTO:
         checkin_id = self._coach_repo.save_checkin(checkin)
         # Sprawdzenie trendu inicjowane wejściem użytkownika (nigdy w tle).

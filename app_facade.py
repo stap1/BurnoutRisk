@@ -91,6 +91,11 @@ class AppFacade:
     def get_latest_plan(self) -> CoachPlanDTO | None:
         return self._coach.get_latest_plan()
 
+    def update_coach_action(
+        self, action_id: str, *, completed: bool, rating: int | None
+    ) -> None:
+        self._coach.update_action(action_id, completed=completed, rating=rating)
+
     def submit_checkin(self, checkin: CheckInDTO) -> CheckInResultDTO:
         return self._coach.submit_checkin(checkin)
 

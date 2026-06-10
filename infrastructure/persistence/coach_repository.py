@@ -95,6 +95,20 @@ class SqliteCoachRepository(ICoachRepository):
             return None
         return self._zbuduj_plan_dto(row)
 
+    def update_action(
+        self, action_id: str, *, completed_date: str | None, rating: int | None
+    ) -> None:
+        try:
+            self._conn.execute("BEGIN")
+            self._conn.execute(
+                "UPDATE coach_action SET completed_date = ?, rating = ? WHERE id = ?",
+                (completed_date, rating, action_id),
+            )
+            self._conn.execute("COMMIT")
+        except Exception:
+            self._conn.execute("ROLLBACK")
+            raise
+
     def get_latest_plan(self) -> CoachPlanDTO | None:
         row = self._conn.execute(
             """

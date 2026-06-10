@@ -70,6 +70,12 @@ class ICoachRepository(ABC):
         """Najnowszy plan lub None."""
 
     @abstractmethod
+    def update_action(
+        self, action_id: str, *, completed_date: str | None, rating: int | None
+    ) -> None:
+        """Aktualizuje stan działania (ukończenie + ocena 0-5)."""
+
+    @abstractmethod
     def save_checkin(self, checkin: CheckInDTO) -> str:
         """Zapisuje dzienny check-in (notatka szyfrowana AES-GCM)."""
 
