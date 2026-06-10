@@ -31,6 +31,9 @@ class EducationService:
         self._repository = repository
         self._clock = clock
 
+    def get_disclaimer(self) -> str:
+        return self._content.disclaimer
+
     def get_topics(self) -> list[EducationTopicDTO]:
         return [self._to_dto(t) for t in self._content.topics]
 

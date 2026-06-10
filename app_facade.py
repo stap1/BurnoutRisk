@@ -101,6 +101,9 @@ class AppFacade:
 
     # --- edukacja ---
 
+    def get_education_disclaimer(self) -> str:
+        return self._education.get_disclaimer()
+
     def get_education_topics(self) -> list[EducationTopicDTO]:
         return self._education.get_topics()
 

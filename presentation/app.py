@@ -67,7 +67,7 @@ class BurnoutApp(tk.Tk):
         # Ekrany 7.2-7.3. Wynik (7.4) i kolejne dochodzą później - do tego czasu
         # "wynik" wskazuje na zaślepkę.
         from presentation.views.coach import CoachView
-        from presentation.views.placeholder import PlaceholderView
+        from presentation.views.education import EducationView
         from presentation.views.result import ResultView
         from presentation.views.survey import SurveyView
         from presentation.views.welcome import WelcomeView
@@ -76,8 +76,7 @@ class BurnoutApp(tk.Tk):
         self.register_view("ankieta", SurveyView(self._kontener, self))
         self.register_view("wynik", ResultView(self._kontener, self))
         self.register_view("coaching", CoachView(self._kontener, self))
-        # Edukacja (7.6) - na razie zaślepka.
-        self.register_view("edukacja", PlaceholderView(self._kontener, self))
+        self.register_view("edukacja", EducationView(self._kontener, self))
         self.show_view("start")
 
     # --- safety-net (zawsze dostępny) ---
