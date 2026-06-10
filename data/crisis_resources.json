@@ -1,0 +1,31 @@
+{
+  "wersja": "1.0",
+  "zweryfikowano": "2026-06-10",
+  "komunikat": "Jeśli mierzysz się z czymś trudnym i potrzebujesz porozmawiać, poniższe miejsca oferują bezpłatne, anonimowe wsparcie. To narzędzie nie zastępuje kontaktu z drugim człowiekiem ani z profesjonalistą.",
+  "zasoby": [
+    {
+      "numer": "112",
+      "nazwa": "Numer alarmowy",
+      "opis": "Gdy zdrowie lub życie jest bezpośrednio zagrożone - zadzwoń natychmiast.",
+      "link": "https://www.gov.pl/web/numer-alarmowy-112"
+    },
+    {
+      "numer": "116 123",
+      "nazwa": "Kryzysowy Telefon Zaufania dla osób dorosłych",
+      "opis": "Wsparcie dla osób dorosłych w kryzysie emocjonalnym (Instytut Psychologii Zdrowia PTP). Połączenie bezpłatne. Aktualne godziny i inne formy kontaktu (czat) znajdziesz na stronie organizacji.",
+      "link": "https://116sos.pl"
+    },
+    {
+      "numer": "800 70 2222",
+      "nazwa": "Centrum Wsparcia dla osób w kryzysie psychicznym",
+      "opis": "Bezpłatne wsparcie psychologiczne (Fundacja ITAKA). Dyżury specjalistów i kontakt przez czat/e-mail na stronie organizacji.",
+      "link": "https://liniawsparcia.pl"
+    },
+    {
+      "numer": "116 111",
+      "nazwa": "Telefon Zaufania dla Dzieci i Młodzieży",
+      "opis": "Bezpłatne wsparcie dla dzieci i młodzieży (Fundacja Dajemy Dzieciom Siłę). Aktualne godziny i inne formy kontaktu na stronie organizacji.",
+      "link": "https://116111.pl"
+    }
+  ]
+}

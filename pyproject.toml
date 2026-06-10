@@ -41,6 +41,7 @@ packages = [
     "domain.survey",
     "domain.coaching",
     "domain.education",
+    "domain.safety",
     "application",
     "application.services",
     "application.ports",
