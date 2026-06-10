@@ -13,6 +13,7 @@ from infrastructure.crypto.pin import (
     unwrap_db_key,
     wrap_db_key,
 )
+from infrastructure.crypto.security_service import SecurityService
 
 __all__ = [
     "AesGcmCryptoService",
@@ -24,4 +25,5 @@ __all__ = [
     "KeyRecoveryNeeded",
     "wrap_db_key",
     "unwrap_db_key",
+    "SecurityService",
 ]

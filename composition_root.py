@@ -17,7 +17,11 @@ from pathlib import Path
 
 from app_facade import AppFacade
 from application.services import CoachService, EducationService, SurveyService
-from infrastructure.crypto import AesGcmCryptoService, KeyringKeyStore
+from infrastructure.crypto import (
+    AesGcmCryptoService,
+    KeyringKeyStore,
+    SecurityService,
+)
 from infrastructure.persistence.coach_actions_loader import load_coach_actions
 from infrastructure.persistence.coach_repository import SqliteCoachRepository
 from infrastructure.persistence.crisis_resources_loader import load_crisis_resources
@@ -30,6 +34,28 @@ from infrastructure.persistence.wipe import WipeService
 
 DEFAULT_DB_PATH = Path.home() / ".burnout_risk_monitor" / "burnout.db"
 KLUCZ_CRISIS_VERIFIED = "crisis_resources_verified_at"
+
+
+class PinRequiredError(Exception):
+    """PIN jest włączony - do zbudowania aplikacji potrzebny jest PIN użytkownika."""
+
+
+def reset_app(
+    db_path: Path | str | None = None, *, keyring_backend: object | None = None
+) -> None:
+    """Recovery: kontrolowany wipe (dane + klucz) do czystego, używalnego stanu.
+
+    Używane, gdy użytkownik nie pamięta PIN-u lub klucz jest uszkodzony - zamiast
+    cichego crasha aplikacja proponuje reset (spec §2.2.2).
+    """
+    from infrastructure.persistence.wipe import WipeService
+
+    sciezka = Path(db_path) if db_path is not None else DEFAULT_DB_PATH
+    sciezka.parent.mkdir(parents=True, exist_ok=True)
+    conn = init_database(sciezka)
+    key_store = KeyringKeyStore(backend=keyring_backend)  # type: ignore[arg-type]
+    WipeService(conn, key_store).full_wipe()
+    conn.close()
 
 
 def _set_app_meta(conn: sqlite3.Connection, key: str, value: str) -> None:
@@ -49,8 +75,14 @@ def build_app_facade(
     db_path: Path | str | None = None,
     keyring_backend: object | None = None,
     clock: Callable[[], datetime] | None = None,
+    pin: str | None = None,
 ) -> AppFacade:
-    """Buduje gotową do użycia fasadę z wszystkimi zależnościami."""
+    """Buduje gotową do użycia fasadę z wszystkimi zależnościami.
+
+    Gdy tryb PIN jest włączony, wymaga poprawnego `pin` - inaczej `PinRequiredError`
+    (warstwa wyżej pokazuje ekran PIN). Błędny PIN → WrongPinError; uszkodzona
+    koperta → KeyRecoveryNeeded (oba prowadzą do ścieżki recovery, nie crasha).
+    """
     sciezka = Path(db_path) if db_path is not None else DEFAULT_DB_PATH
     sciezka.parent.mkdir(parents=True, exist_ok=True)
     conn = init_database(sciezka)
@@ -63,10 +95,17 @@ def build_app_facade(
     crisis = load_crisis_resources()
     education_content = load_education_content()
 
-    # Klucz i szyfrowanie pól wrażliwych.
+    # Klucz i szyfrowanie pól wrażliwych (z uwzględnieniem trybu PIN).
     key_store = KeyringKeyStore(backend=keyring_backend)  # type: ignore[arg-type]
     keyring_safe = key_store.is_backend_safe()
-    crypto = AesGcmCryptoService(key_store.get_or_create_key())
+    security = SecurityService(conn, key_store)
+    if security.is_pin_enabled():
+        if pin is None:
+            raise PinRequiredError("Tryb PIN włączony - podaj PIN.")
+        db_key = security.unlock(pin)
+    else:
+        db_key = key_store.get_or_create_key()
+    crypto = AesGcmCryptoService(db_key)
 
     # Repozytoria (infrastruktura).
     survey_repo = SqliteSurveyRepository(conn, definition)
@@ -89,5 +128,6 @@ def build_app_facade(
         education_service=education_service,
         crisis_resources=crisis,
         wipe_service=wipe_service,
+        security_service=security,
         keyring_safe=keyring_safe,
     )

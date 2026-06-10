@@ -69,11 +69,57 @@ class KeyringKeyStore(IKeyStore):
         )
         return klucz
 
-    def delete_key(self) -> None:
+    def store_key(self, key: bytes) -> None:
+        """Zapisuje jawny klucz bazy (używane przy wyłączaniu PIN)."""
+        self._backend.set_password(
+            self._service, self._username, base64.b64encode(key).decode("ascii")
+        )
+
+    def has_plain_key(self) -> bool:
+        return bool(self._backend.get_password(self._service, self._username))
+
+    def delete_plain_key(self) -> None:
+        """Usuwa tylko jawny klucz (przy włączaniu PIN koperta zostaje)."""
         try:
             self._backend.delete_password(self._service, self._username)
         except keyring.errors.PasswordDeleteError:
-            # Brak klucza do usunięcia traktujemy jak stan docelowy (idempotencja wipe).
+            pass
+
+    def delete_key(self) -> None:
+        try:
+            self._backend.delete_password(self._service, self._username)
+            self._backend.delete_password(self._service, self._envelope_user())
+        except keyring.errors.PasswordDeleteError:
+            # Brak wpisu do usunięcia traktujemy jak stan docelowy (idempotencja wipe).
+            pass
+
+    # --- koperta (tryb PIN) ---
+
+    def _envelope_user(self) -> str:
+        return f"{self._username}_envelope"
+
+    def store_envelope(self, salt: bytes, wrapped: bytes) -> None:
+        wartosc = (
+            base64.b64encode(salt).decode("ascii")
+            + ":"
+            + base64.b64encode(wrapped).decode("ascii")
+        )
+        self._backend.set_password(self._service, self._envelope_user(), wartosc)
+
+    def load_envelope(self) -> tuple[bytes, bytes] | None:
+        wartosc = self._backend.get_password(self._service, self._envelope_user())
+        if not wartosc or ":" not in wartosc:
+            return None
+        s, w = wartosc.split(":", 1)
+        try:
+            return base64.b64decode(s, validate=True), base64.b64decode(w, validate=True)
+        except (binascii.Error, ValueError) as exc:
+            raise KeyRecoveryNeeded("Koperta klucza w keyring jest uszkodzona.") from exc
+
+    def clear_envelope(self) -> None:
+        try:
+            self._backend.delete_password(self._service, self._envelope_user())
+        except keyring.errors.PasswordDeleteError:
             pass
 
     def is_backend_safe(self) -> bool:

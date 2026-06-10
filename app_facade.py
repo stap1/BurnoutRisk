@@ -27,6 +27,7 @@ from application.dto import (
 from application.services import CoachService, EducationService, SurveyService
 from domain.safety import CrisisResources
 from domain.survey import SurveyDefinition
+from infrastructure.crypto import SecurityService
 from infrastructure.persistence.wipe import WipeService
 
 
@@ -40,6 +41,7 @@ class AppFacade:
         education_service: EducationService,
         crisis_resources: CrisisResources,
         wipe_service: WipeService,
+        security_service: SecurityService,
         keyring_safe: bool,
     ) -> None:
         self._definition = survey_definition
@@ -48,6 +50,7 @@ class AppFacade:
         self._education = education_service
         self._crisis = crisis_resources
         self._wipe = wipe_service
+        self._security = security_service
         self._keyring_safe = keyring_safe
 
     # --- start / stan ---
@@ -135,10 +138,22 @@ class AppFacade:
             ],
         )
 
-    # --- kasowanie / retencja ---
+    # --- tryb PIN ---
+
+    def is_pin_enabled(self) -> bool:
+        return self._security.is_pin_enabled()
+
+    def enable_pin(self, pin: str) -> None:
+        self._security.enable_pin(pin)
+
+    def disable_pin(self, pin: str) -> None:
+        self._security.disable_pin(pin)
+
+    # --- kasowanie / retencja / recovery ---
 
     def delete_session(self, session_id: str) -> bool:
         return self._wipe.delete_session(session_id)
 
     def wipe_all_data(self) -> None:
+        """Pełny wipe = także ścieżka recovery „nie pamiętam PIN-u → reset"."""
         self._wipe.full_wipe()
