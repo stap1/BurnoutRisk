@@ -18,15 +18,12 @@ Aplikacja desktopowa w Pythonie, która na podstawie ankiety psychometrycznej (2
 ## Spis treści
 
 - [O projekcie](#o-projekcie)
-- [Status](#status)
 - [Kluczowe założenia](#kluczowe-założenia)
 - [Stack technologiczny](#stack-technologiczny)
 - [Architektura](#architektura)
 - [Struktura repozytorium](#struktura-repozytorium)
 - [Uruchomienie środowiska deweloperskiego](#uruchomienie-środowiska-deweloperskiego)
 - [Testy](#testy)
-- [Dokumentacja](#dokumentacja)
-- [Mapa drogowa](#mapa-drogowa)
 - [Prywatność i bezpieczeństwo danych](#prywatność-i-bezpieczeństwo-danych)
 - [Licencja](#licencja)
 
@@ -43,24 +40,6 @@ Celem jest narzędzie, które:
 - edukuje o wypaleniu w oparciu o rzetelne źródła,
 - proponuje konkretne, drobne kroki wsparcia,
 - i przez cały czas zapewnia dostęp do realnych zasobów pomocowych.
-
-## Status
-
-> [!NOTE]
-> **MVP ukończone (Fazy 0-9).** Pełna aplikacja: ankieta z miękkim lądowaniem, silnik scoringu, coaching z detektorem trendu, moduł edukacyjny, safety-net, interfejs tkinter, raporty/eksport oraz pakowanie PyInstaller. **289 testów na zielono**, pokrycie domeny 92% (rdzeń scoringu/generatora/trendu 100%).
-
-| Faza | Zakres | Stan |
-|---|---|---|
-| **0 - Fundament** | szkielet repo, `pyproject.toml`, `pytest`, enumy domenowe | ✅ ukończona |
-| **1 - Domena: scoring** | rekodowanie, progi, renormalizacja wag, pasma ryzyka | ✅ ukończona |
-| **2 - Aplikacja** | porty, DTO, serwis ankiety | ✅ ukończona |
-| **3 - Infrastruktura** | SQLite, szyfrowanie, klucze, tryb PIN | ✅ ukończona |
-| **4 - Coaching** | generator planu, detektor trendu | ✅ ukończona |
-| **5 - Treści i safety-net** | zasoby wsparcia, moduł edukacyjny | ✅ ukończona |
-| **6-7 - Fasada i UI** | composition root, ekrany tkinter | ✅ ukończona |
-| **8-9 - Raporty, pakowanie** | wykresy, eksport, PyInstaller | ✅ ukończona |
-
-Pełna, szczegółowa lista zadań z bramkami testowymi: [`todo.md`](../ProjectFiles/todo.md).
 
 ## Kluczowe założenia
 
@@ -191,28 +170,6 @@ pytest -k <wzorzec>    # pojedynczy test po nazwie
 
 Struktura katalogu `tests/` odzwierciedla warstwy architektury. Najgęstsze pokrycie ma (i będzie miała) domena - zwłaszcza silnik scoringu.
 
-## Dokumentacja
-
-| Dokument | Opis |
-|---|---|
-| [`ProjectFiles/burnout_monitor_spec_v3_1.md`](../ProjectFiles/burnout_monitor_spec_v3_1.md) | Pełna specyfikacja techniczna: architektura, model danych, algorytmy, logika, plan testów, failsafe'y |
-| [`ProjectFiles/todo.md`](../ProjectFiles/todo.md) | Plan wykonawczy - sekwencja zadań TDD z bramkami testowymi |
-| [`CLAUDE.md`](../CLAUDE.md) | Wytyczne operacyjne dla pracy wspomaganej Claude Code |
-
-## Mapa drogowa
-
-Najbliższe etapy (szczegóły w [`todo.md`](../ProjectFiles/todo.md)):
-
-- [x] **Faza 0** - fundament: struktura, zależności, `pytest`, typy domenowe
-- [x] **Faza 1** - silnik scoringu (rekodowanie, progi „za mało danych", renormalizacja wag, pasma ryzyka)
-- [x] **Faza 2-3** - warstwa aplikacji + infrastruktura (SQLite, szyfrowanie, tryb PIN z recovery)
-- [x] **Faza 4** - coaching: deterministyczny plan 14-dniowy + detektor trendu
-- [x] **Faza 5** - treści edukacyjne + safety-net (zweryfikowane zasoby)
-- [x] **Faza 6-7** - fasada i interfejs (tkinter)
-- [x] **Faza 8-9** - raportowanie, eksport, pakowanie
-
-**Świadomie poza zakresem MVP** (możliwe rozszerzenia w przyszłości): blokada biometryczna, uczący się silnik rekomendacji (CoachEngine 2.0), dopracowany interfejs webowy.
-
 ## Prywatność i bezpieczeństwo danych
 
 Aplikacja przetwarza dane dotyczące dobrostanu, które należą do szczególnej kategorii danych (zdrowie). Z tego powodu:
@@ -232,4 +189,4 @@ Projekt udostępniany na licencji **MIT**. Pełny tekst: [`LICENSE.txt`](./LICEN
 
 ---
 
-<sub>Projekt akademicki - Menedżerska Akademia Nauk Stosowanych w Warszawie. Narzędzie edukacyjne, nie diagnostyczne.</sub>
+<sub>Projekt akademicki. Narzędzie edukacyjne, nie diagnostyczne.</sub>
